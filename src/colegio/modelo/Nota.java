@@ -1,5 +1,6 @@
 package colegio.modelo;
 
+//Hola vicente estoy practicando con Git uwu
 public class Nota {
 
     private double valor;
