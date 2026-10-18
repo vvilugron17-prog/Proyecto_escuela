@@ -14,8 +14,7 @@ public abstract class Curso implements Identificable, Rankeable {
     protected int horasSemanales;
     protected int cupoMaximo;
     protected Profesor profesor;
-    protected ArrayList<Alumno> alumnos; //Lista para guardar a todos los alumnos de un curso
-    protected ArrayList<Alumno> promedioNotas; //Lista para guardar el promedio de notas de todos los alumnos del curso
+    protected ArrayList<Alumno> alumnos; // Lista para guardar a todos los alumnos de un curso
     
     public Curso(String nombre, int horasSemanales, int cupoMaximo) {
         this.id = "CUR-" + contadorId++;
@@ -24,11 +23,14 @@ public abstract class Curso implements Identificable, Rankeable {
         this.cupoMaximo = cupoMaximo;
         alumnos = new ArrayList<>();
     }
-    public void inscribirAlumno(Alumno alumno)throws CupoLlenoException {
+
+    // [REQUISITO: Excepciones]
+    public void inscribirAlumno(Alumno alumno) throws CupoLlenoException {
         if (alumnos.size() >= cupoMaximo) {
-            throw new CupoLlenoException("El Cupo " + nombre + " ha alcansado su cupo maximo " + cupoMaximo );
+            throw new CupoLlenoException(cupoMaximo);
         }
         alumnos.add(alumno);
+        System.out.println("El alumno fue agregado al curso correctamente");
     }
     
     ///----------- Getters ---------------///
@@ -79,18 +81,22 @@ public abstract class Curso implements Identificable, Rankeable {
         this.cupoMaximo = cupoMaximo;
     }
     
-    public abstract double calcularPonderacion();
+    public abstract void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas); //Método abstracto para calcular la ponderación de cada curso
+    
+    public abstract void informacionPonderacion(); //Método abstracto para mostrar por pantalla la ponderación de cada curso
 
     @Override
-    public String obtenerId() {
+    public String obtenerId() { //Interfaz que devuelve el ID del curso
         return id;
     }
-
-    public abstract void agregarAlumnos(Alumno alumnoNuevo);
-    
-    public abstract void agregarPromedioNotas(Alumno alumnoNuevo);
+   
     
     @Override
-    public abstract double obtenerPuntajeRanking();
-
+    public void obtenerPuntajeRanking(ArrayList<Alumno> alumnos) { //Método para ordenar a los alumnos de mayor a menor promedio
+        for(int i = 0; i < alumnos.size(); i++ ){
+            if(alumnos.get(i).getPromedioNotas() > alumnos.get(i+1).getPromedioNotas()){
+                //METODO INCOMPLETO
+            }
+        }
+    }
 }

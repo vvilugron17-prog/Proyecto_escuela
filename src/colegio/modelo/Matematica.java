@@ -2,39 +2,39 @@ package colegio.modelo;
 
 public class Matematica extends Curso {
 
-    private final double porcentajeEvaluaciones;
-    private final double porcentajeTareas;
+    private double porcentajeEvaluaciones;
+    private double porcentajeTareas;
+    private final int cantidadEvaluaciones;
+    private final int cantidadTareas;
+    // [REQUISITO: Final].
     
-    public Matematica(String nombre, int horasSemanales, int cupoMaximo, double porcentajeEvaluaciones, double porcentajeTareas){
+    public Matematica(String nombre, int horasSemanales, int cupoMaximo,int cantidadEvaluaciones, int cantidadTareas){
         super(nombre, horasSemanales, cupoMaximo);
-        this.porcentajeEvaluaciones = porcentajeEvaluaciones;
-        this.porcentajeTareas = porcentajeTareas;
+        this.cantidadEvaluaciones = cantidadEvaluaciones;
+        this.cantidadTareas = cantidadTareas;
     }
     
-    @Override
-    public void agregarAlumnos(Alumno alumnoNuevo){ //Método abstracto para añadir alumnos a la lista de un curso, de parámetros se coloca la clase Alumno y su instancia alumnoNuevo
-        alumnos.add(alumnoNuevo);
-    }
+
 
     @Override
-    public void agregarPromedioNotas(Alumno alumnoNuevo) {
-        double promedioAlumno = alumnoNuevo.getPromedioNotas();
-        promedioNotas.add(promedioAlumno);
-        
-        
+    public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
+        if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){
+            this.porcentajeEvaluaciones = porcentajeEvaluaciones;
+            this.porcentajeTareas = porcentajeTareas;
+        }
+        else{
+            System.out.println("Los porcentajes sumados no forman el 100%");
+        }
+               
     }
 
-    @Override
-    public double obtenerPuntajeRanking() {
-    
-    }
-    
-    @Override
-    public double calcularPonderacion() {
-        return this.porcentajeEvaluaciones + this.porcentajeTareas;
+    @Override 
+    public void informacionPonderacion() {
+        System.out.println("El curso de " + nombre + " tiene:");
+        System.out.println(cantidadEvaluaciones + " que valen un " + porcentajeEvaluaciones + "% del curso");
+        System.out.println(cantidadTareas + " que valen un " + porcentajeTareas + "% del curso");
     }
 }
-
 
 
 

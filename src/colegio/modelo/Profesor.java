@@ -9,6 +9,8 @@ public class Profesor extends Persona implements Identificable {
     public Profesor() {
         super();
     }
+    
+    
 
     @Override
     public String obtenerId() {

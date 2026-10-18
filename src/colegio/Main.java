@@ -4,6 +4,8 @@ import colegio.gestion.Colegio;
 import colegio.gestion.Menu;
 
 public class Main {
+    private static final long serialVersionOID = 1L;
+    // [REQUISITO: Persistencia]
 
     public static void main(String[] args) {
 

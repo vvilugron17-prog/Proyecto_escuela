@@ -15,13 +15,16 @@ public class Alumno extends Persona implements Identificable {
 
     public void agregarNotas(double nota){ //Método para agregar una nota a un alumno
         notas.add(nota);
+        System.out.println("La nota ha sido agregada");
     }
+    
     
     public void promedioNotas(ArrayList<Double> notas){ //Método para calcular el promedio de notas de un alumno
         double promedio;
         
-        if(notas.size() <= 0){
-            System.out.println("El alumno no tiene notas");
+        if(notas == null || notas.size() <= 1){ 
+            System.out.println("El alumno no tiene notas suficientes para calcular su promedio");
+            promedio = 0;
         }
         else{   
             double sumaNotas = 0;
@@ -29,17 +32,22 @@ public class Alumno extends Persona implements Identificable {
                 sumaNotas += notas.get(i);
             }
             promedio = (sumaNotas / notas.size()); 
-            this.promedioNotas = promedio;
+            
         }
+        this.promedioNotas = promedio;
     }
-    public double getPromedioNotas(){
+    
+    @Override //Interfaz de obtener ID
+    public String obtenerId() {
+        return id;
+    }
+    
+    ///----------- Getters ---------------///
+
+    public double getPromedioNotas() {
         return promedioNotas;
     }
     
     
-    
-    @Override
-    public String obtenerId() {
-        return id;
-    }
+
 }
