@@ -8,10 +8,10 @@ public class Alumno extends Persona implements Identificable {
     private ArrayList<Double> notas;
     private double promedioNotas;    
 
-    public Alumno() {
-        super();
-        this.notas = new ArrayList<>();
-    }
+    public Alumno(String id, String nombre, String apellido) {
+    super(id, nombre, apellido);
+    this.notas = new ArrayList<>();
+}
 
     public void agregarNotas(double nota){ //Método para agregar una nota a un alumno
         notas.add(nota);
