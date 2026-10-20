@@ -2,7 +2,7 @@ package colegio.excepciones;
 
 public class CupoLlenoException extends RuntimeException {
     
-    private static final long serialVersionOID = 1L;
+    private static final long serialVersionUID = 1L;
     // [REQUISITO: Persistencia]
 
     public CupoLlenoException(int cupoMaximo) {

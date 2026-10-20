@@ -3,51 +3,62 @@ package colegio.modelo;
 import colegio.interfaces.Identificable;
 import java.util.ArrayList;
 
-public class Alumno extends Persona implements Identificable {
+// [REQUISITO: Herencia]
+public class Alumno extends Persona implements Identificable, Comparable<Alumno> {
 
     private ArrayList<Double> notas;
-    private double promedioNotas;    
+    private double promedioNotas;
 
     public Alumno(String id, String nombre, String apellido) {
-    super(id, nombre, apellido);
-    this.notas = new ArrayList<>();
-}
+        super(id, nombre, apellido);
+        this.notas = new ArrayList<>();
+    }
 
-    public void agregarNotas(double nota){ //Método para agregar una nota a un alumno
+    public void agregarNotas(double nota) {
         notas.add(nota);
+        calcularPromedioNotas(notas);
         System.out.println("La nota ha sido agregada");
     }
-    
-    
-    public void promedioNotas(ArrayList<Double> notas){ //Método para calcular el promedio de notas de un alumno
-        double promedio;
-        
-        if(notas == null || notas.size() <= 1){ 
-            System.out.println("El alumno no tiene notas suficientes para calcular su promedio");
-            promedio = 0;
+
+    public void calcularPromedioNotas(ArrayList<Double> notas) {
+        if (notas == null || notas.isEmpty()) {
+            promedioNotas = 0;
+            return;
         }
-        else{   
-            double sumaNotas = 0;
-            for (int i = 0; i < notas.size(); i++){
-                sumaNotas += notas.get(i);
-            }
-            promedio = (sumaNotas / notas.size()); 
-            
+
+        double sumaNotas = 0;
+        for (Double nota : notas) {
+            sumaNotas += nota;
         }
-        this.promedioNotas = promedio;
+        promedioNotas = sumaNotas / notas.size();
     }
-    
-    @Override //Interfaz de obtener ID
+
+    @Override
     public String obtenerId() {
         return id;
     }
-    
-    ///----------- Getters ---------------///
 
     public double getPromedioNotas() {
         return promedioNotas;
     }
-    
-    
 
+    public ArrayList<Double> getNotas() {
+        return new ArrayList<>(notas);
+    }
+
+    // Promedio más alto primero, luego apellido y nombre.
+    @Override
+    public int compareTo(Alumno otro) {
+        int resultadoPromedio = Double.compare(otro.getPromedioNotas(), this.getPromedioNotas());
+        if (resultadoPromedio != 0) {
+            return resultadoPromedio;
+        }
+
+        int resultadoApellido = this.getApellido().compareToIgnoreCase(otro.getApellido());
+        if (resultadoApellido != 0) {
+            return resultadoApellido;
+        }
+
+        return this.getNombre().compareToIgnoreCase(otro.getNombre());
+    }
 }

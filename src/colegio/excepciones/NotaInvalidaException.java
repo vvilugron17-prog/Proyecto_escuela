@@ -1,10 +1,9 @@
 package colegio.excepciones;
 
-public class NotaInvalidaException extends Exception {
-    
-    private static final long serialVersionOID = 1L;
-    // [REQUISITO: Persistencia]
-    
+// [REQUISITO: Excepciones]
+public class NotaInvalidaException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
 
     public NotaInvalidaException(String mensaje) {
         super(mensaje);

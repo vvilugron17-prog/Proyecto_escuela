@@ -3,9 +3,14 @@ package colegio.modelo;
 import colegio.excepciones.CupoLlenoException;
 import colegio.interfaces.Identificable;
 import colegio.interfaces.Rankeable;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public abstract class Curso implements Identificable, Rankeable {
+// [REQUISITO: Persistencia] [REQUISITO: Herencia]
+public abstract class Curso implements Identificable, Rankeable, Serializable, Comparable<Curso> {
+
+    private static final long serialVersionUID = 1L;
 
     private static int contadorId = 1;
     protected String id;
@@ -92,11 +97,17 @@ public abstract class Curso implements Identificable, Rankeable {
    
     
     @Override
-    public void obtenerPuntajeRanking(ArrayList<Alumno> alumnos) { //Método para ordenar a los alumnos de mayor a menor promedio
-        for(int i = 0; i < alumnos.size(); i++ ){
-            if(alumnos.get(i).getPromedioNotas() > alumnos.get(i+1).getPromedioNotas()){
-                //METODO INCOMPLETO
-            }
+    public void obtenerPuntajeRanking(ArrayList<Alumno> alumnos) {
+        if (alumnos == null) {
+            throw new IllegalArgumentException("La lista de alumnos no puede ser nula.");
         }
+        // Implementa comparable
+        Collections.sort(alumnos);
+    }
+
+    // Ordena por orden alfabetico
+    @Override
+    public int compareTo(Curso otro) {
+        return this.nombre.compareToIgnoreCase(otro.nombre);
     }
 }

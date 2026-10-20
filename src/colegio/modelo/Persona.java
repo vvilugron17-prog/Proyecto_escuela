@@ -1,6 +1,11 @@
 package colegio.modelo;
 
-public class Persona {
+import java.io.Serializable;
+
+// [REQUISITO: Persistencia]
+public class Persona implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     protected String id;
     protected String nombre;
@@ -11,7 +16,7 @@ public class Persona {
         this.nombre = nombre;
         this.apellido = apellido;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
@@ -35,5 +40,4 @@ public class Persona {
     public String getApellido() {
         return apellido;
     }
-    
 }

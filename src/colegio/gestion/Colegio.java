@@ -1,7 +1,6 @@
 package colegio.gestion;
 
 import colegio.enums.TipoOperacion;
-import colegio.interfaces.Identificable;
 import colegio.modelo.Alumno;
 import colegio.modelo.Curso;
 import colegio.modelo.Operacion;
@@ -9,122 +8,203 @@ import colegio.modelo.Profesor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
+// [REQUISITO: Package]
+// Esta clase coordina los registros y las operaciones principales del colegio.
 public class Colegio implements Serializable {
 
+    // [REQUISITO: Static y Final]
     private static final long serialVersionUID = 1L;
     private static final String NOMBRE_COLEGIO = "Zapallar";
 
-    // Listas.
+    // Las listas conservan el orden en que se registran los objetos.
+    // [REQUISITO: Colecciones]
     private final ArrayList<Alumno> alumnos = new ArrayList<>();
     private final ArrayList<Profesor> profesores = new ArrayList<>();
     private final ArrayList<Curso> cursos = new ArrayList<>();
     private final ArrayList<Operacion> historial = new ArrayList<>();
 
-    // HashMaps.
+    // Los mapas permiten encontrar objetos directamente por su ID.
+    // [REQUISITO: Colecciones]
     private final HashMap<String, Alumno> alumnosPorId = new HashMap<>();
     private final HashMap<String, Profesor> profesoresPorId = new HashMap<>();
     private final HashMap<String, Curso> cursosPorId = new HashMap<>();
 
-    // Getters.
     public String getNombreColegio() {
         return NOMBRE_COLEGIO;
     }
 
+    // Devolvemos copias de las listas para evitar que desde fuera se agreguen
+    // o eliminen elementos sin actualizar los HashMap de búsqueda.
     public ArrayList<Alumno> getAlumnos() {
-        return alumnos;
+        return new ArrayList<>(alumnos);
     }
 
     public ArrayList<Profesor> getProfesores() {
-        return profesores;
+        return new ArrayList<>(profesores);
     }
 
     public ArrayList<Curso> getCursos() {
-        return cursos;
+        return new ArrayList<>(cursos);
     }
 
     public ArrayList<Operacion> getHistorial() {
-        return historial;
+        return new ArrayList<>(historial);
     }
 
-    // Método genérico para registrar alumnos, profesores y cursos.
-    private <Generico extends Identificable> void Generico(
-            Generico objeto,
-            ArrayList<Generico> lista,
-            HashMap<String, Generico> mapa,
-            TipoOperacion tipo,
-            String nombreTipo) {
-
-        if (objeto == null) {
-            throw new IllegalArgumentException(
-                    "Debe indicar un " + nombreTipo + " válido.");
-        }
-
-        String id = objeto.obtenerId();
-
-        if (id == null || id.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "El ID del " + nombreTipo + " no es válido.");
-        }
-
-        id = clave(id);
-
-        if (mapa.containsKey(id)) {
-            throw new IllegalArgumentException(
-                    "Ya existe un " + nombreTipo + " con ese ID.");
-        }
-
-        lista.add(objeto);
-        mapa.put(id, objeto);
-
-        String descripcion = "Se registró el " + nombreTipo
-                + " con ID " + id;
-
-        registrar(tipo, descripcion);
-    }
-
-    // Registrar un alumno.
+    // Registro de alumnos
     public void agregarAlumno(Alumno alumno) {
-        Generico(
-                alumno,
-                alumnos,
-                alumnosPorId,
-                TipoOperacion.REGISTRO_ALUMNO,
-                "alumno"
-        );
+        if (alumno == null) {
+            throw new IllegalArgumentException("El alumno no puede ser nulo.");
+        }
+
+        String id = normalizarId(alumno.obtenerId());
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("El ID del alumno no es válido.");
+        }
+        if (alumnosPorId.containsKey(id)) {
+            throw new IllegalArgumentException("Ya existe un alumno con ese ID.");
+        }
+
+        alumnos.add(alumno);
+        alumnosPorId.put(id, alumno);
+        registrar(TipoOperacion.REGISTRO_ALUMNO,
+                "Se registró el alumno con ID " + id + ".");
     }
 
-    // Registrar un profesor.
+    // Registro de profesores
     public void agregarProfesor(Profesor profesor) {
-        Generico(
-                profesor,
-                profesores,
-                profesoresPorId,
-                TipoOperacion.REGISTRO_PROFESOR,
-                "profesor"
-        );
+        if (profesor == null) {
+            throw new IllegalArgumentException("El profesor no puede ser nulo.");
+        }
+
+        String id = normalizarId(profesor.obtenerId());
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("El ID del profesor no es válido.");
+        }
+        if (profesoresPorId.containsKey(id)) {
+            throw new IllegalArgumentException("Ya existe un profesor con ese ID.");
+        }
+
+        profesores.add(profesor);
+        profesoresPorId.put(id, profesor);
+        registrar(TipoOperacion.REGISTRO_PROFESOR,
+                "Se registró el profesor con ID " + id + ".");
     }
 
-    // Registrar un curso.
+    // Registro de cursos
     public void agregarCurso(Curso curso) {
-        Generico(
-                curso,
-                cursos,
-                cursosPorId,
-                TipoOperacion.REGISTRO_CURSO,
-                "curso"
-        );
+        if (curso == null) {
+            throw new IllegalArgumentException("El curso no puede ser nulo.");
+        }
+
+        String id = normalizarId(curso.obtenerId());
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("El ID del curso no es válido.");
+        }
+        if (cursosPorId.containsKey(id)) {
+            throw new IllegalArgumentException("Ya existe un curso con ese ID.");
+        }
+
+        cursos.add(curso);
+        cursosPorId.put(id, curso);
+        registrar(TipoOperacion.REGISTRO_CURSO,
+                "Se registró el curso con ID " + id + ".");
     }
 
-    // Normalizar identificadores. Los limpia de espacios y los pasa a mayusculas.
-    private String clave(String id) {
-        return id.trim().toUpperCase(java.util.Locale.ROOT);
+    // [REQUISITO: Static y Final]
+    // Normaliza IDs para que, por ejemplo, "c1" y " C1 " se igualen
+    // Si es nulo, se devuelve el mismo. 
+    // Si no, se quita espacios del inicio y final y se pone mayuscula todo.
+    public static String normalizarId(String id) {
+        if (id == null) {
+            return null;
+        }
+        return id.trim().toUpperCase();
     }
 
-    // Registrar operaciones en el historial.
+    // Búsquedas directas por ID usando los HashMap
+    public Alumno buscarAlumnoPorId(String id) {
+        String idNormalizado = normalizarId(id);
+        if (idNormalizado == null || idNormalizado.isEmpty()) {
+            return null;
+        }
+        return alumnosPorId.get(idNormalizado);
+    }
+
+    public Profesor buscarProfesorPorId(String id) {
+        String idNormalizado = normalizarId(id);
+        if (idNormalizado == null || idNormalizado.isEmpty()) {
+            return null;
+        }
+        return profesoresPorId.get(idNormalizado);
+    }
+
+    public Curso buscarCursoPorId(String id) {
+        String idNormalizado = normalizarId(id);
+        if (idNormalizado == null || idNormalizado.isEmpty()) {
+            return null;
+        }
+        return cursosPorId.get(idNormalizado);
+    }
+
+    // [REQUISITO: Polimorfismo]
+    // El ranking utiliza compareTo de Alumno y ordena desde el promedio más alto.
+    public ArrayList<Alumno> obtenerRankingAlumnos() {
+        ArrayList<Alumno> ranking = new ArrayList<>(alumnos);
+        Collections.sort(ranking);
+        return ranking;
+    }
+
+    // [REQUISITO: Herencia] [REQUISITO: Excepciones]
+    // Inscribe al alumno y deja constancia de la operación en el historial.
+    public void inscribirAlumnoEnCurso(String alumnoId, String cursoId) {
+        Alumno alumno = buscarAlumnoPorId(alumnoId);
+        Curso curso = buscarCursoPorId(cursoId);
+
+        if (alumno == null) {
+            throw new IllegalArgumentException("No existe un alumno con ese ID.");
+        }
+        if (curso == null) {
+            throw new IllegalArgumentException("No existe un curso con ese ID.");
+        }
+
+        for (Alumno inscrito : curso.getAlumnos()) {
+            if (normalizarId(inscrito.obtenerId()).equals(normalizarId(alumno.obtenerId()))) {
+                throw new IllegalArgumentException("El alumno ya está inscrito en ese curso.");
+            }
+        }
+
+        curso.inscribirAlumno(alumno);
+        registrar(TipoOperacion.INSCRIPCION,
+                "Alumno " + alumno.obtenerId() 
+                + " inscrito en curso " + curso.obtenerId() + ".");
+    }
+
+    // Asigna un profesor al curso y registra el cambio.
+    public void asignarProfesorACurso(String profesorId, String cursoId) {
+        Profesor profesor = buscarProfesorPorId(profesorId);
+        Curso curso = buscarCursoPorId(cursoId);
+
+        if (profesor == null) {
+            throw new IllegalArgumentException("No existe un profesor con ese ID.");
+        }
+        if (curso == null) {
+            throw new IllegalArgumentException("No existe un curso con ese ID.");
+        }
+        if (curso.getProfesor() != null) {
+            throw new IllegalArgumentException("El curso ya tiene un profesor.");
+        }
+
+        curso.setProfesor(profesor);
+        registrar(TipoOperacion.ASIGNACION_PROFESOR,
+                "Profesor " + profesor.obtenerId() + " asignado al curso " + curso.obtenerId() + ".");
+    }
+
+    // Simplemente oara registrar
     private void registrar(TipoOperacion tipo, String descripcion) {
-        Operacion operacion = new Operacion(tipo, descripcion);
-        historial.add(operacion);
+        historial.add(new Operacion(tipo, descripcion));
     }
 }
