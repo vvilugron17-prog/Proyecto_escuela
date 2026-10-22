@@ -2,6 +2,9 @@ package colegio.modelo;
 
 public class Ciencia extends Curso {
 
+    // [REQUISITO: Persistencia]
+    private static final long serialVersionUID = 1L;
+
     private double porcentajeEvaluaciones;
     private double porcentajeTareas;
     private final int cantidadEvaluaciones;

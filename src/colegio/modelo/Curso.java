@@ -29,6 +29,11 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         alumnos = new ArrayList<>();
     }
 
+    // [REQUISITO: Persistencia] 
+    public static void sincronizarContadorId(ArrayList<Curso> cursos) {
+    contadorId = cursos.size() + 1;
+}
+
     // [REQUISITO: Excepciones]
     public void inscribirAlumno(Alumno alumno) throws CupoLlenoException {
         if (alumnos.size() >= cupoMaximo) {
@@ -50,6 +55,10 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     
     public int getHorasSemanales(){
         return horasSemanales;
+    }
+
+    public int getCupoMaximo(){
+        return cupoMaximo;
     }
     
     public String getDescripcion(){

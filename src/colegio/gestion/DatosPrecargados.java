@@ -16,8 +16,7 @@ public final class DatosPrecargados {
     public static void cargar(Colegio colegio) {
 
         if (colegio == null) {
-            throw new IllegalArgumentException(
-                    "Debe indicar un colegio válido.");
+            throw new IllegalArgumentException("Debe indicar un colegio válido.");
         }
 
         // Alumnos.

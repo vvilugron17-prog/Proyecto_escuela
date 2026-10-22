@@ -3,6 +3,7 @@ package colegio.modelo;
 import colegio.enums.TipoOperacion;
 import java.io.Serializable;
 
+// [REQUISITO: Persistencia]
 public class Operacion implements Serializable {
     private static final long serialVersionUID = 1L;
     private TipoOperacion tipo;

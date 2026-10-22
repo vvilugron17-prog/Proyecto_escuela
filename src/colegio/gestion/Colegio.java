@@ -6,10 +6,8 @@ import colegio.modelo.Curso;
 import colegio.modelo.Operacion;
 import colegio.modelo.Profesor;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
 // [REQUISITO: Package]
 // Esta clase coordina los registros y las operaciones principales del colegio.
@@ -18,6 +16,8 @@ public class Colegio implements Serializable {
     // [REQUISITO: Static y Final]
     private static final long serialVersionUID = 1L;
     private static final String NOMBRE_COLEGIO = "Zapallar";
+    // [REQUISITO: Persistencia] Archivo donde se guarda el colegio.
+    private static final String ARCHIVO_DATOS = "colegio_datos.dat";
 
     // Las listas conservan el orden en que se registran los objetos.
     // [REQUISITO: Colecciones]
@@ -38,21 +38,13 @@ public class Colegio implements Serializable {
 
     // Devolvemos copias de las listas para evitar que desde fuera se agreguen
     // o eliminen elementos sin actualizar los HashMap de búsqueda.
-    public ArrayList<Alumno> getAlumnos() {
-        return new ArrayList<>(alumnos);
-    }
+    public ArrayList<Alumno> getAlumnos() { return new ArrayList<>(alumnos); }
 
-    public ArrayList<Profesor> getProfesores() {
-        return new ArrayList<>(profesores);
-    }
+    public ArrayList<Profesor> getProfesores() { return new ArrayList<>(profesores); }
 
-    public ArrayList<Curso> getCursos() {
-        return new ArrayList<>(cursos);
-    }
+    public ArrayList<Curso> getCursos() { return new ArrayList<>(cursos); }
 
-    public ArrayList<Operacion> getHistorial() {
-        return new ArrayList<>(historial);
-    }
+    public ArrayList<Operacion> getHistorial() { return new ArrayList<>(historial); }
 
     // Registro de alumnos
     public void agregarAlumno(Alumno alumno) {
@@ -151,7 +143,7 @@ public class Colegio implements Serializable {
     }
 
     // [REQUISITO: Polimorfismo]
-    // El ranking utiliza compareTo de Alumno y ordena desde el promedio más alto.
+    // El ranking utiliza compareTo de Alumno y ordena desde el promedio más alto
     public ArrayList<Alumno> obtenerRankingAlumnos() {
         ArrayList<Alumno> ranking = new ArrayList<>(alumnos);
         Collections.sort(ranking);
@@ -203,7 +195,63 @@ public class Colegio implements Serializable {
                 "Profesor " + profesor.obtenerId() + " asignado al curso " + curso.obtenerId() + ".");
     }
 
-    // Simplemente oara registrar
+    // Registra una nota y deja constancia en el historial.
+    public void registrarNota(String alumnoId, double nota) {
+        Alumno alumno = buscarAlumnoPorId(alumnoId);
+
+        if (alumno == null) {
+            throw new IllegalArgumentException("No existe un alumno con ese ID.");
+        }
+
+        alumno.agregarNotas(nota);
+        registrar(TipoOperacion.REGISTRO_NOTA,
+                "Se registró la nota " + nota + " para el alumno " + alumno.obtenerId() + ".");
+    }
+
+    // [REQUISITO: Persistencia]
+    public void guardar() {
+    try (ObjectOutputStream oos = new ObjectOutputStream(
+            new FileOutputStream(ARCHIVO_DATOS))) {
+
+        oos.writeObject(this);
+        System.out.println("Datos guardados correctamente.");
+
+    } catch (IOException e) {
+        System.out.println("Error al guardar: " + e.getMessage());
+    }
+}
+
+    // [REQUISITO: Persistencia]
+    public static Colegio cargar() {
+    File archivo = new File(ARCHIVO_DATOS);
+
+    if (!archivo.exists() || archivo.length() == 0) {
+        System.out.println("No hay datos guardados.");
+        return null;
+    }
+
+    try (ObjectInputStream ois = new ObjectInputStream(
+            new FileInputStream(archivo))) {
+
+        Colegio colegio = (Colegio) ois.readObject();
+
+        Curso.sincronizarContadorId(colegio.getCursos());
+
+        System.out.println("Datos cargados correctamente.");
+        return colegio;
+
+    } catch (IOException e) {
+        System.out.println("Error al cargar: " + e.getMessage());
+    } catch (ClassNotFoundException e) {
+        System.out.println("No se encontró una clase necesaria para cargar los datos.");
+    } catch (ClassCastException e) {
+        System.out.println("El archivo no contiene datos válidos de un colegio.");
+    }
+
+    return null;
+}
+
+    // Agrega una operación al historial.
     private void registrar(TipoOperacion tipo, String descripcion) {
         historial.add(new Operacion(tipo, descripcion));
     }

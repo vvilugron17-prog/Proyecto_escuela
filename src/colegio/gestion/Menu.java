@@ -1,112 +1,141 @@
 package colegio.gestion;
+
 import java.util.Scanner;
 
-import colegio.modelo.Persona;
-import colegio.modelo.Profesor;
-import colegio.modelo.Alumno;
-import colegio.modelo.Curso;
-import colegio.modelo.Matematica;
-import colegio.modelo.Arte;
-import colegio.modelo.Ciencia;
-
 public class Menu {
-    private static final long serialVersionOID = 1L;
-    // [REQUISITO: Persistencia]
-    
 
-    private Colegio colegio;
+    private final Colegio colegio;
+    private final Scanner sc = new Scanner(System.in);
 
     public Menu(Colegio colegio) {
         this.colegio = colegio;
     }
 
     public void iniciar() {
-        Scanner sc = new Scanner(System.in);
-        int opcion;
-        
-        do{
-            System.out.println("------------MENU--------------");
-            System.out.println("1. Crear un nuevo curso");
-            System.out.println("2. Ingresar un nuevo alumno");
-            System.out.println("3. Ingresar un nuevo profesor ");
-            System.out.println("4. Mostrar cursos creados");
-            System.out.println("5. Mostrar alumnos ingresados");
-            System.out.println("6. Mostrar profesores ingresados");
-            System.out.println("7. Gestionar los cursos ya creados");
-            System.out.println("9. Búsqueda de alumno por ID");
-            System.out.println("10. Búsqueda de profesor por ID");
-            System.out.println("11. Mostrar Ranking");
-            System.out.println("12. Mostrar Historial");
-            System.out.println("0. Salir y guardar");
-            System.out.println("//// Ingrese una opción:");
-            String opcion = 
-        }
-        
-        try{
-            opcion = Integer.parseInt(sc.nextLine()); //Tomará como valor lo que coloque el usuario en la última línea 
-            
-            switch(opcion){
-                
-                case 1:
-                    //codigo
-                    break;
-                case 2:
-                    //codigo
-                    break;
-                case 3:
-                    //codigo
-                    break;
-                case 4:
-                    //codigo
-                    break;
-                case 5:
-                    //codigo
-                    break;
-                case 6:
-                    //codigo
-                    break;
-                case 7:
-                    //codigo
-                    break;
-                case 8:
-                    //codigo
-                    break;
-                case 9:
-                    //codigo
-                    break;
-                case 10:
-                    //codigo
-                    break;
-                case 11:
-                    //codigo
-                    break;
-                case 12:
-                    //codigo
-                    break;
-                    
+    int opcion;
+    do {
+        mostrarMenu();
+        opcion = leerOpcion();
+
+        switch (opcion) {
+            case 1 -> crearNuevoCurso();
+            case 2 -> ingresarNuevoAlumno();
+            case 3 -> ingresarNuevoProfesor();
+            case 4 -> mostrarCursos();
+            case 5 -> mostrarAlumnos();
+            case 6 -> mostrarProfesores();
+            case 7 -> gestionarCursos();
+            case 8 -> buscarCursoPorId();
+            case 9 -> buscarAlumnoPorId();
+            case 10 -> buscarProfesorPorId();
+            case 11 -> mostrarRanking();
+            case 12 -> mostrarHistorial();
+            case 0 -> {
+                colegio.guardar();
+                System.out.println("Saliendo.");
             }
+            case -67 -> {} 
+            default -> System.out.println("Opción no válida. Elija una opción del menú.");
         }
-        
-        catch (NumberFormatException e){
-            System.out.println("Dato inválido, por favor ingrese un número válido");
+        System.out.println();
+    } while (opcion != 0);
+}
+
+    private void mostrarMenu() {
+    System.out.println("""
+            ------------ MENÚ DEL COLEGIO ------------
             
-        }
-        
-        while (opcion != 0);
-        
-        sc.close();
-        
-        
+            1. Crear un nuevo curso
+            2. Ingresar un nuevo alumno
+            3. Ingresar un nuevo profesor
+            4. Mostrar cursos creados
+            5. Mostrar alumnos ingresados
+            6. Mostrar profesores ingresados
+            7. Gestionar cursos ya creados
+            8. Búsqueda de curso por ID
+            9. Búsqueda de alumno por ID
+            10. Búsqueda de profesor por ID
+            11. Mostrar ranking de alumnos
+            12. Mostrar historial
+            
+            0. Salir y guardar""");
+}
+
+    private int leerOpcion() {
+    System.out.print("Ingrese una opción: ");
+    try {
+        return Integer.parseInt(sc.nextLine().trim());
+    } catch (NumberFormatException error) {
+        System.out.println("Dato inválido. Por favor, ingrese un número entero.");
+        return -67;
     }
-  
-    public void crearNuevoCurso(){
-        System.out.println("-------BIENVENIDO A LA CREACION DE CURSOS-------");
-        System.out.println("///Tendrá solo 3 materias para crear un nuevo curso, las cuales son///");
-        System.out.println("MATEMÁTICAS              CIENCIAS              ARTES");
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Ingrese el nombre de su curso");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese");
-        
-    } 
+}
+
+    public void crearNuevoCurso() {
+        // Pendiente de implementar.
+    }
+
+    private void ingresarNuevoAlumno() {
+        // Pendiente de implementar.
+    }
+
+    private void ingresarNuevoProfesor() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarCursos() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarAlumnos() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarProfesores() {
+        // Pendiente de implementar.
+    }
+
+    private void gestionarCursos() {
+        // Pendiente de implementar.
+    }
+
+    private void buscarCursoPorId() {
+        // Pendiente de implementar.
+    }
+
+    private void buscarAlumnoPorId() {
+        // Pendiente de implementar.
+    }
+
+    private void buscarProfesorPorId() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarRanking() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarHistorial() {
+        // Pendiente de implementar.
+    }
+
+    private void inscribirAlumnoEnCurso() {
+        // Pendiente de implementar.
+    }
+
+    private void asignarProfesorACurso() {
+        // Pendiente de implementar.
+    }
+
+    private void configurarPonderacion() {
+        // Pendiente de implementar.
+    }
+
+    private void mostrarPonderacion() {
+        // Pendiente de implementar.
+    }
+
+    private void registrarNota() {
+        // Pendiente de implementar.
+    }
 }

@@ -1,10 +1,14 @@
 package colegio.modelo;
 
 import colegio.interfaces.Identificable;
+import colegio.excepciones.NotaInvalidaException;
 import java.util.ArrayList;
 
 // [REQUISITO: Herencia]
 public class Alumno extends Persona implements Identificable, Comparable<Alumno> {
+
+    // [REQUISITO: Persistencia]
+    private static final long serialVersionUID = 1L;
 
     private ArrayList<Double> notas;
     private double promedioNotas;
@@ -15,6 +19,10 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
     }
 
     public void agregarNotas(double nota) {
+        if (Double.isNaN(nota) || nota < 1.0 || nota > 7.0) {
+            throw new NotaInvalidaException("La nota debe estar entre 1,0 y 7,0.");
+        }
+
         notas.add(nota);
         calcularPromedioNotas(notas); //Esto para que cuando se agregue una nueva nota, el promedio se actualice con la nueva nota ingresada
         System.out.println("La nota ha sido agregada");

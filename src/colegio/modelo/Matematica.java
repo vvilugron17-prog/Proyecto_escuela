@@ -2,6 +2,9 @@ package colegio.modelo;
 
 public class Matematica extends Curso {
 
+    // [REQUISITO: Persistencia]
+    private static final long serialVersionUID = 1L;
+
     private double porcentajeEvaluaciones;
     private double porcentajeTareas;
     private final int cantidadEvaluaciones;
@@ -14,8 +17,6 @@ public class Matematica extends Curso {
         this.cantidadTareas = cantidadTareas;
     }
     
-
-
     @Override
     public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
         if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){
