@@ -16,7 +16,7 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
 
     public void agregarNotas(double nota) {
         notas.add(nota);
-        calcularPromedioNotas(notas);
+        calcularPromedioNotas(notas); //Esto para que cuando se agregue una nueva nota, el promedio se actualice con la nueva nota ingresada
         System.out.println("La nota ha sido agregada");
     }
 
@@ -49,7 +49,7 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
     // Promedio más alto primero, luego apellido y nombre.
     @Override
     public int compareTo(Alumno otro) {
-        int resultadoPromedio = Double.compare(otro.getPromedioNotas(), this.getPromedioNotas());
+        int resultadoPromedio = Double.compare(otro.getPromedioNotas(), this.getPromedioNotas()); // Compara el promedio final entre alumnos
         if (resultadoPromedio != 0) {
             return resultadoPromedio;
         }

@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/Main.java</file>
+            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/gestion/Menu.java</file>
             <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Curso.java</file>
-            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Matematica.java</file>
-            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Operacion.java</file>
-            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Persona.java</file>
-            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Ciencia.java</file>
+            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/gestion/Colegio.java</file>
+            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/modelo/Arte.java</file>
+            <file>file:/C:/Users/benja/Documents/NetBeansProjects/Proyecto%20Escuela/src/colegio/enums/NivelCurso.java</file>
         </group>
     </open-files>
 </project-private>

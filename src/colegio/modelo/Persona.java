@@ -16,6 +16,8 @@ public class Persona implements Serializable {
         this.nombre = nombre;
         this.apellido = apellido;
     }
+    
+    //Setters
 
     public void setId(String id) {
         this.id = id;
@@ -28,6 +30,8 @@ public class Persona implements Serializable {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+    
+    //Getters
 
     public String getId() {
         return id;

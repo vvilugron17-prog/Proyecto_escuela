@@ -18,12 +18,12 @@ public class Arte extends Curso {
 
     @Override
     public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
-        if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){
+        if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){ //Si el porcentaje entre Tareas y evaluaciones forman el 100%, los atributos de porcentaje tomarán esos valores.
             this.porcentajeEvaluaciones = porcentajeEvaluaciones;
             this.porcentajeTareas = porcentajeTareas;
         }
         else{
-            System.out.println("Los porcentajes sumados no forman el 100%");
+            System.out.println("Los porcentajes sumados no forman el 100%"); //Si no forma el 100%, los atributos de porcentaje seguirán sin valor.
         }
                
     }
