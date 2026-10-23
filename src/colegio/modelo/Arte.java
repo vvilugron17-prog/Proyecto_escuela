@@ -18,7 +18,7 @@ public class Arte extends Curso {
     }
     
 
-
+    //Se inializan los porcentajes de ponderación en el método para que así se asegure de que llegue a un 100%
     @Override
     public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
         if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){ //Si el porcentaje entre Tareas y evaluaciones forman el 100%, los atributos de porcentaje tomarán esos valores.
@@ -36,5 +36,10 @@ public class Arte extends Curso {
         System.out.println("El curso de " + nombre + " tiene:");
         System.out.println(cantidadEvaluaciones + " que valen un " + porcentajeEvaluaciones + "% del curso");
         System.out.println(cantidadTareas + " que valen un " + porcentajeTareas + "% del curso");
+    }
+
+    @Override
+    public void mostrarInformacion() {
+        System.out.println(id + "/" + nombre + "/" + horasSemanales + "/" + cupoMaximo + "/" + cantidadEvaluaciones + "/" + cantidadTareas);
     }
 }

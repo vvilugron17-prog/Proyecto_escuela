@@ -35,6 +35,11 @@ public class Matematica extends Curso {
         System.out.println(cantidadEvaluaciones + " que valen un " + porcentajeEvaluaciones + "% del curso");
         System.out.println(cantidadTareas + " que valen un " + porcentajeTareas + "% del curso");
     }
+
+    @Override
+    public void mostrarInformacion() {
+        System.out.println(id + "/" + nombre + "/" + horasSemanales + "/" + cupoMaximo + "/" + cantidadEvaluaciones + "/" + cantidadTareas);
+    }
 }
 
 

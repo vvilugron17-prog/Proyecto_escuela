@@ -1,8 +1,6 @@
 package colegio.modelo;
 
-import colegio.interfaces.Identificable;
-
-public class Profesor extends Persona implements Identificable {
+public class Profesor extends Persona{
 
     // [REQUISITO: Persistencia]
     private static final long serialVersionUID = 1L;
@@ -20,8 +18,8 @@ public class Profesor extends Persona implements Identificable {
     }
 
     @Override
-    public String obtenerId() {
-        return id;
+    public void mostrarInformacion() {
+        System.out.println(id + "/" + nombre + "/" + apellido + "/ especialidad");
     }
 }
 

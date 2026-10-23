@@ -1,11 +1,10 @@
 package colegio.modelo;
 
-import colegio.interfaces.Identificable;
 import colegio.excepciones.NotaInvalidaException;
 import java.util.ArrayList;
 
 // [REQUISITO: Herencia]
-public class Alumno extends Persona implements Identificable, Comparable<Alumno> {
+public class Alumno extends Persona implements Comparable<Alumno> {
 
     // [REQUISITO: Persistencia]
     private static final long serialVersionUID = 1L;
@@ -19,7 +18,7 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
     }
 
     public void agregarNotas(double nota) {
-        if (Double.isNaN(nota) || nota < 1.0 || nota > 7.0) {
+        if (nota < 1.0 || nota > 7.0) {
             throw new NotaInvalidaException("La nota debe estar entre 1,0 y 7,0.");
         }
 
@@ -39,11 +38,6 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
             sumaNotas += nota;
         }
         promedioNotas = sumaNotas / notas.size();
-    }
-
-    @Override
-    public String obtenerId() {
-        return id;
     }
 
     public double getPromedioNotas() {
@@ -68,5 +62,10 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
         }
 
         return this.getNombre().compareToIgnoreCase(otro.getNombre());
+    }
+
+    @Override
+    public void mostrarInformacion() {
+        System.out.println(id + "/" + nombre + "/" + apellido);
     }
 }

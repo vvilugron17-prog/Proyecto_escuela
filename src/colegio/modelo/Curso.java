@@ -15,7 +15,6 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     private static int contadorId = 1;
     protected String id;
     protected String nombre;
-    protected String descripcion;
     protected int horasSemanales;
     protected int cupoMaximo;
     protected Profesor profesor;
@@ -43,6 +42,8 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         System.out.println("El alumno fue agregado al curso correctamente");
     }
     
+
+    
     ///----------- Getters ---------------///
     
     public String getId(){
@@ -59,10 +60,6 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
 
     public int getCupoMaximo(){
         return cupoMaximo;
-    }
-    
-    public String getDescripcion(){
-        return descripcion;
     }
     
     public Profesor getProfesor(){
@@ -85,10 +82,6 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
-    }
-    
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
     
     public void setCupoMaximo(int cupoMaximo) {
@@ -119,4 +112,6 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     public int compareTo(Curso otro) {
         return this.nombre.compareToIgnoreCase(otro.nombre);
     }
+    
+    public abstract void mostrarInformacion();
 }

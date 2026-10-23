@@ -1,9 +1,10 @@
 package colegio.modelo;
 
+import colegio.interfaces.Identificable;
 import java.io.Serializable;
 
 // [REQUISITO: Persistencia]
-public class Persona implements Serializable {
+public abstract class Persona implements Serializable, Identificable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,6 +17,8 @@ public class Persona implements Serializable {
         this.nombre = nombre;
         this.apellido = apellido;
     }
+    
+    public abstract void mostrarInformacion();
     
     //Setters
 
@@ -33,15 +36,16 @@ public class Persona implements Serializable {
     
     //Getters
 
-    public String getId() {
-        return id;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
     public String getApellido() {
         return apellido;
+    }
+    
+    @Override
+    public String obtenerId() {
+        return id;
     }
 }
