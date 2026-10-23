@@ -10,8 +10,8 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
     // [REQUISITO: Persistencia]
     private static final long serialVersionUID = 1L;
     private static int contadorId = 1;
-    private String id;
-    private ArrayList<Double> notas;
+    private final String id;
+    private final ArrayList<Double> notas;
     private double promedioNotas;
 
     public Alumno(String nombre, String apellido) {

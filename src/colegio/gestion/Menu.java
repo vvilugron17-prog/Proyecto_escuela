@@ -83,7 +83,6 @@ public class Menu {
     }
 }
 
-    // 
     private int leerEntero(String mensaje, int minimo) {
         while (true) {
             System.out.print(mensaje);
@@ -102,7 +101,6 @@ public class Menu {
             }
         }
     }
-    
 
     private void crearNuevoCurso() {
         System.out.println("///////BIENVENIDO A LA CREACION DE CURSOS///////");
@@ -172,7 +170,6 @@ public class Menu {
         colegio.agregarCurso(cursoNuevo);  
     }
     
-
     private void ingresarNuevoAlumno() {
         System.out.println("Ingrese el nombre del Alumno");
         String nombre = sc.nextLine();
@@ -230,7 +227,8 @@ public class Menu {
         }
         System.out.println("\n");
     }
-
+    
+    // Falta implementar
     private void gestionarCursos() {
         //Implentar código
     }
@@ -280,11 +278,11 @@ public class Menu {
         } 
     }
 
+    // Falta implementar
     private void mostrarRanking() {
-        //Código
+        // Falta implementar
         }
     
-
     private void mostrarHistorial() {
         ArrayList<Operacion> historial = colegio.getHistorial();
         System.out.println("------- HISTORIAL DE OPERACIONES -------");
@@ -296,6 +294,8 @@ public class Menu {
             System.out.println((i + 1) + ". " + historial.get(i));
         }
     }
+    
+    
 
     private void inscribirAlumnoEnCurso(Curso curso) {
         //Código
