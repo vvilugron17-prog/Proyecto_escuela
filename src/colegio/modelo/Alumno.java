@@ -1,22 +1,31 @@
 package colegio.modelo;
 
+import colegio.interfaces.Identificable;
 import colegio.excepciones.NotaInvalidaException;
 import java.util.ArrayList;
 
 // [REQUISITO: Herencia]
-public class Alumno extends Persona implements Comparable<Alumno> {
+public class Alumno extends Persona implements Identificable, Comparable<Alumno> {
 
     // [REQUISITO: Persistencia]
     private static final long serialVersionUID = 1L;
-
+    private static int contadorId = 1;
+    private String id;
     private ArrayList<Double> notas;
     private double promedioNotas;
 
-    public Alumno(String id, String nombre, String apellido) {
-        super(id, nombre, apellido);
+    public Alumno(String nombre, String apellido) {
+        super(nombre, apellido);
+        this.id = "A" + contadorId++;
         this.notas = new ArrayList<>();
     }
-
+    
+    
+    public static void sincronizarContadorId(ArrayList<Alumno> alumnos){
+        contadorId = alumnos.size() + 1;
+        
+    }
+   
     public void agregarNotas(double nota) {
         if (nota < 1.0 || nota > 7.0) {
             throw new NotaInvalidaException("La nota debe estar entre 1,0 y 7,0.");
@@ -67,5 +76,10 @@ public class Alumno extends Persona implements Comparable<Alumno> {
     @Override
     public void mostrarInformacion() {
         System.out.println(id + "/" + nombre + "/" + apellido);
+    }
+    
+    @Override
+    public String obtenerId(){
+        return id;
     }
 }

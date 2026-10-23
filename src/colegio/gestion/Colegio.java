@@ -114,7 +114,7 @@ public class Colegio implements Serializable {
         if (id == null) {
             return null;
         }
-        return id.trim().toUpperCase();
+        return id.trim().toUpperCase(Locale.ROOT);
     }
 
     // Búsquedas directas por ID usando los HashMap
@@ -236,6 +236,8 @@ public class Colegio implements Serializable {
         Colegio colegio = (Colegio) ois.readObject();
 
         Curso.sincronizarContadorId(colegio.getCursos());
+        Alumno.sincronizarContadorId(colegio.getAlumnos());
+        Profesor.sincronizarContadorId(colegio.getProfesores());
 
         System.out.println("Datos cargados correctamente.");
         return colegio;

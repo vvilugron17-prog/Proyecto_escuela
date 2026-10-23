@@ -20,11 +20,11 @@ public final class DatosPrecargados {
         }
 
         // Alumnos.
-        Alumno alumno1 = new Alumno("A1", "Alumno1", "Apellido1");
-        Alumno alumno2 = new Alumno("A2", "Alumno2", "Apellido2");
-        Alumno alumno3 = new Alumno("A3", "Alumno3", "Apellido3");
-        Alumno alumno4 = new Alumno("A4", "Alumno4", "Apellido4");
-        Alumno alumno5 = new Alumno("A5", "Alumno5", "Apellido5");
+        Alumno alumno1 = new Alumno("Alumno1", "Apellido1");
+        Alumno alumno2 = new Alumno("Alumno2", "Apellido2");
+        Alumno alumno3 = new Alumno("Alumno3", "Apellido3");
+        Alumno alumno4 = new Alumno("Alumno4", "Apellido4");
+        Alumno alumno5 = new Alumno("Alumno5", "Apellido5");
 
         colegio.agregarAlumno(alumno1);
         colegio.agregarAlumno(alumno2);
@@ -34,13 +34,13 @@ public final class DatosPrecargados {
 
         // Profesores.
         Profesor profesor1 = new Profesor(
-                "P1", "Profesor1", "Apellido1", "Matematica");
+                "Profesor1", "Apellido1", "Matematica");
 
         Profesor profesor2 = new Profesor(
-                "P2", "Profesor2", "Apellido2", "Ciencias");
+                "Profesor2", "Apellido2", "Ciencias");
 
         Profesor profesor3 = new Profesor(
-                "P3", "Profesor3", "Apellido3", "Artes");
+                "Profesor3", "Apellido3", "Artes");
 
         colegio.agregarProfesor(profesor1);
         colegio.agregarProfesor(profesor2);

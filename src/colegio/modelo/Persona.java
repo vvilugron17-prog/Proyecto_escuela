@@ -1,30 +1,25 @@
 package colegio.modelo;
 
-import colegio.interfaces.Identificable;
+
 import java.io.Serializable;
 
 // [REQUISITO: Persistencia]
-public abstract class Persona implements Serializable, Identificable {
+public abstract class Persona implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    protected String id;
     protected String nombre;
     protected String apellido;
 
-    public Persona(String id, String nombre, String apellido) {
-        this.id = id;
+    public Persona(String nombre, String apellido) {
         this.nombre = nombre;
         this.apellido = apellido;
     }
     
+    //Método abstracto para mostrar la informacion de Alumno y Profesor
     public abstract void mostrarInformacion();
     
     //Setters
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -42,10 +37,5 @@ public abstract class Persona implements Serializable, Identificable {
 
     public String getApellido() {
         return apellido;
-    }
-    
-    @Override
-    public String obtenerId() {
-        return id;
     }
 }

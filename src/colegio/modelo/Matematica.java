@@ -17,14 +17,15 @@ public class Matematica extends Curso {
         this.cantidadTareas = cantidadTareas;
     }
     
+    //Se inializan los porcentajes de ponderación en el método para que así se asegure de que llegue a un 100%
     @Override
     public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
-        if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){
+        if (porcentajeEvaluaciones + porcentajeTareas == 100) { //Si el porcentaje entre Tareas y evaluaciones forman el 100%, los atributos de porcentaje tomarán esos valores.
             this.porcentajeEvaluaciones = porcentajeEvaluaciones;
             this.porcentajeTareas = porcentajeTareas;
         }
         else{
-            System.out.println("Los porcentajes sumados no forman el 100%");
+            System.out.println("Los porcentajes sumados no forman el 100%"); //Si no forma el 100%, los atributos de porcentaje seguirán sin valor.
         }
                
     }

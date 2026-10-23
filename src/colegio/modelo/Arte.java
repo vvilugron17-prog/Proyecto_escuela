@@ -21,7 +21,7 @@ public class Arte extends Curso {
     //Se inializan los porcentajes de ponderación en el método para que así se asegure de que llegue a un 100%
     @Override
     public void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas) {
-        if( (porcentajeEvaluaciones + porcentajeTareas) == 100 ){ //Si el porcentaje entre Tareas y evaluaciones forman el 100%, los atributos de porcentaje tomarán esos valores.
+        if (porcentajeEvaluaciones + porcentajeTareas == 100) { //Si el porcentaje entre Tareas y evaluaciones forman el 100%, los atributos de porcentaje tomarán esos valores.
             this.porcentajeEvaluaciones = porcentajeEvaluaciones;
             this.porcentajeTareas = porcentajeTareas;
         }

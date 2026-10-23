@@ -1,14 +1,13 @@
 package colegio.gestion;
 
-import colegio.modelo.Persona;
 import colegio.modelo.Profesor;
 import colegio.modelo.Alumno;
 import colegio.modelo.Curso;
 import colegio.modelo.Matematica;
 import colegio.modelo.Arte;
 import colegio.modelo.Ciencia;
+import colegio.modelo.Operacion;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 
@@ -84,6 +83,27 @@ public class Menu {
     }
 }
 
+    // 
+    private int leerEntero(String mensaje, int minimo) {
+        while (true) {
+            System.out.print(mensaje);
+            try {
+                int valor = Integer.parseInt(sc.nextLine().trim());
+                if (valor < minimo) {
+                    System.out.println("El valor debe ser igual o mayor que " + minimo);
+                } 
+            else{
+                return valor;
+                }
+            }
+            
+            catch (NumberFormatException error) {
+                System.out.println("Entrada inválida. Ingrese un número entero.");
+            }
+        }
+    }
+    
+
     private void crearNuevoCurso() {
         System.out.println("///////BIENVENIDO A LA CREACION DE CURSOS///////");
         System.out.println("\n\n");
@@ -92,7 +112,7 @@ public class Menu {
         System.out.println("1. Matematicas");
         System.out.println("2. Ciencias");
         System.out.println("3. Artes");
-        System.out.println("\n0. Salir y guardar");
+        System.out.println("\n0. Volver al menú principal");
         int opcion;
         do{
             opcion = leerOpcion();
@@ -102,10 +122,7 @@ public class Menu {
             case 2 -> cursoCiencia();
             case 3 -> cursoArte();
             
-            case 0 -> {
-                colegio.guardar();
-                System.out.println("Saliendo.");
-            }
+            case 0 -> System.out.println("Volviendo al menú principal.");
             
             case -1 -> {} //En caso de que el usuario coloque un dato que no es número entero 
             default -> System.out.println("Opción no válida. Elija una opción del menú."); //En caso de que el usuario coloque un número entero inválido
@@ -120,14 +137,10 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Matemáticas: ");
         String nombre = sc.nextLine();
-        System.out.println("Ingrese las horas semanales de su Curso: ");
-        int horasSemanales = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese el cupo máximo de su curso");
-        int cupoMaximo = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de evaluaciones que tendrá su curso");
-        int cantidadEvaluaciones = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de tareas que tendrá su curso");
-        int cantidadTareas = Integer.parseInt(sc.nextLine());
+        int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
+        int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
+        int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
+        int cantidadTareas = leerEntero("Ingrese la cantidad de tareas que tendrá su curso: ", 0);
         //Creación del curso
         Matematica cursoNuevo = new Matematica(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
         colegio.agregarCurso(cursoNuevo);  
@@ -137,14 +150,10 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Ciencias: ");
         String nombre = sc.nextLine();
-        System.out.println("Ingrese las horas semanales de su Curso: ");
-        int horasSemanales = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese el cupo máximo de su curso");
-        int cupoMaximo = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de evaluaciones que tendrá su curso");
-        int cantidadEvaluaciones = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de tareas que tendrá su curso");
-        int cantidadTareas = Integer.parseInt(sc.nextLine());
+        int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
+        int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
+        int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
+        int cantidadTareas = leerEntero("Ingrese la cantidad de tareas que tendrá su curso: ", 0);
         //Creación del curso
         Ciencia cursoNuevo = new Ciencia(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
         colegio.agregarCurso(cursoNuevo);  
@@ -154,14 +163,10 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Artes: ");
         String nombre = sc.nextLine();
-        System.out.println("Ingrese las horas semanales de su Curso: ");
-        int horasSemanales = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese el cupo máximo de su curso");
-        int cupoMaximo = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de evaluaciones que tendrá su curso");
-        int cantidadEvaluaciones = Integer.parseInt(sc.nextLine());
-        System.out.println("Ingrese la cantidad de tareas que tendrá su curso");
-        int cantidadTareas = Integer.parseInt(sc.nextLine());
+        int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
+        int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
+        int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
+        int cantidadTareas = leerEntero("Ingrese la cantidad de tareas que tendrá su curso: ", 0);
         //Creación del curso
         Arte cursoNuevo = new Arte(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
         colegio.agregarCurso(cursoNuevo);  
@@ -169,20 +174,16 @@ public class Menu {
     
 
     private void ingresarNuevoAlumno() {
-        System.out.println("Ingrese el ID del Alumno");
-        String id = sc.nextLine();
         System.out.println("Ingrese el nombre del Alumno");
         String nombre = sc.nextLine();
         System.out.println("Ingrese el apellido del Alumno");
         String apellido = sc.nextLine();
         
-        Alumno nuevoAlumno = new Alumno(id, nombre, apellido);
+        Alumno nuevoAlumno = new Alumno(nombre, apellido);
         colegio.agregarAlumno(nuevoAlumno);
     }
 
     private void ingresarNuevoProfesor() {
-        System.out.println("Ingrese el ID del Profesor");
-        String id = sc.nextLine();
         System.out.println("Ingrese el nombre del Profesor");
         String nombre = sc.nextLine();
         System.out.println("Ingrese el apellido del Profesor");
@@ -190,7 +191,7 @@ public class Menu {
         System.out.println("Ingrese la especialidad del Profesor");
         String especialidad = sc.nextLine();
         
-        Profesor nuevoProfesor = new Profesor(id, nombre, apellido, especialidad);
+        Profesor nuevoProfesor = new Profesor(nombre, apellido, especialidad);
         colegio.agregarProfesor(nuevoProfesor);
     }
 
@@ -231,11 +232,11 @@ public class Menu {
     }
 
     private void gestionarCursos() {
-        // Pendiente de implementar.
+        //Implentar código
     }
 
     private void buscarCursoPorId() {
-        System.out.println("Ingrese un ID de un curso para buscar");
+        System.out.println("Ingrese un ID de un curso para buscar  (EJEMPLO: (CUR-3)");
         String id = sc.nextLine();
         //Variable local para guardar el curso encontrado
         Curso cursoEncontrado = colegio.buscarCursoPorId(id);
@@ -250,7 +251,7 @@ public class Menu {
     }
 
     private void buscarAlumnoPorId() {
-        System.out.println("Ingrese un ID de un alumno para buscar");
+        System.out.println("Ingrese un ID de un alumno para buscar  (EJEMPLO: (ALU-3)");
         String id = sc.nextLine();
         //Variable local para guardar el alumno encontrado
         Alumno alumnoEncontrado = colegio.buscarAlumnoPorId(id);
@@ -280,30 +281,39 @@ public class Menu {
     }
 
     private void mostrarRanking() {
-        // Pendiente de implementar.
-    }
+        //Código
+        }
+    
 
     private void mostrarHistorial() {
-        // Pendiente de implementar.
+        ArrayList<Operacion> historial = colegio.getHistorial();
+        System.out.println("------- HISTORIAL DE OPERACIONES -------");
+        if (historial.isEmpty()) {
+            System.out.println("No hay operaciones registradas.");
+            return;
+        }
+        for (int i = 0; i < historial.size(); i++) {
+            System.out.println((i + 1) + ". " + historial.get(i));
+        }
     }
 
-    private void inscribirAlumnoEnCurso() {
-        // Pendiente de implementar.
+    private void inscribirAlumnoEnCurso(Curso curso) {
+        //Código
     }
 
-    private void asignarProfesorACurso() {
-        // Pendiente de implementar.
+    private void asignarProfesorACurso(Curso curso) {
+        //Código
     }
 
-    private void configurarPonderacion() {
-        // Pendiente de implementar.
+    private void configurarPonderacion(Curso curso) {
+        //Código
     }
 
-    private void mostrarPonderacion() {
-        // Pendiente de implementar.
+    private void mostrarPonderacion(Curso curso) {
+        curso.informacionPonderacion();
     }
 
-    private void registrarNota() {
-        // Pendiente de implementar.
+    private void registrarNota(Curso curso) {
+        //Código
     }
 }
