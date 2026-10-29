@@ -26,7 +26,7 @@ public class Colegio implements Serializable {
     private final ArrayList<Curso> cursos = new ArrayList<>();
     private final ArrayList<Operacion> historial = new ArrayList<>();
 
-    // Los mapas permiten encontrar objetos directamente por su ID.
+    // Los Hashmaps permiten encontrar objetos directamente por su ID.
     // [REQUISITO: Colecciones]
     private final HashMap<String, Alumno> alumnosPorId = new HashMap<>();
     private final HashMap<String, Profesor> profesoresPorId = new HashMap<>();
@@ -171,28 +171,30 @@ public class Colegio implements Serializable {
 
         curso.inscribirAlumno(alumno);
         registrar(TipoOperacion.INSCRIPCION,
-                "Alumno " + alumno.obtenerId() 
-                + " inscrito en curso " + curso.obtenerId() + ".");
+                "Alumno " + alumno.getNombre() + " " + alumno.getApellido() 
+                + " inscrito en curso " + curso.getNombre() + ".");
     }
 
     // Asigna un profesor al curso y registra el cambio.
-    public void asignarProfesorACurso(String profesorId, String cursoId) {
+    public void asignarProfesorACurso(String profesorId, String cursoId) {        
         Profesor profesor = buscarProfesorPorId(profesorId);
         Curso curso = buscarCursoPorId(cursoId);
-
+        
         if (profesor == null) {
             throw new IllegalArgumentException("No existe un profesor con ese ID.");
         }
+        
         if (curso == null) {
             throw new IllegalArgumentException("No existe un curso con ese ID.");
         }
+        
         if (curso.getProfesor() != null) {
             throw new IllegalArgumentException("El curso ya tiene un profesor.");
-        }
-
+        }    
+        
         curso.setProfesor(profesor);
-        registrar(TipoOperacion.ASIGNACION_PROFESOR,
-                "Profesor " + profesor.obtenerId() + " asignado al curso " + curso.obtenerId() + ".");
+        registrar(TipoOperacion.ASIGNACION_PROFESOR, "Profesor " + profesor.obtenerId() + " asignado al curso " + curso.obtenerId() + ".");
+        
     }
 
     // Registra una nota y deja constancia en el historial.
