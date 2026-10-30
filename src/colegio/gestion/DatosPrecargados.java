@@ -48,17 +48,12 @@ public final class DatosPrecargados {
 
         // Cursos de Matematica.
         Curso matematica1 = new Matematica("Álgebra", 4, 30, 3, 4);
-        matematica1.asignarNivelCurso();//Método para asignarle un nivel al curso creado
         Curso matematica2 = new Matematica("Cálculo", 3, 25, 2, 3);
-        matematica2.asignarNivelCurso();//Método para asignarle un nivel al curso creado
         Curso matematica3 = new Matematica("Geometría", 3, 25, 2, 2);
-        matematica3.asignarNivelCurso();//Método para asignarle un nivel al curso creado
 
         // Cursos de Ciencias.
         Curso ciencia1 = new Ciencia("Física", 4, 30, 3, 3);
-        ciencia1.asignarNivelCurso();//Método para asignarle un nivel al curso creado
         Curso ciencia2 = new Ciencia("Biología", 4, 30, 3, 2);
-        ciencia2.asignarNivelCurso();//Método para asignarle un nivel al curso creado
         Curso ciencia3 = new Ciencia("Química", 3, 25, 2, 3);
 
         // Cursos de Artes.

@@ -176,7 +176,6 @@ public class Menu {
         
         if(preguntaSeguridad == 1){
             Matematica cursoNuevo = new Matematica(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
-            cursoNuevo.asignarNivelCurso(); //Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo);  
             System.out.println("Curso creado con éxito\n");
         }
@@ -205,7 +204,6 @@ public class Menu {
         
         if(preguntaSeguridad == 1){
             Ciencia cursoNuevo = new Ciencia(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
-            cursoNuevo.asignarNivelCurso();//Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo);  
             System.out.println("Curso creado con éxito\n");
         }
@@ -234,7 +232,6 @@ public class Menu {
         
         if(preguntaSeguridad == 1){        
             Arte cursoNuevo = new Arte(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
-            cursoNuevo.asignarNivelCurso();//Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo); 
             System.out.println("Curso creado con éxito\n");
         }
@@ -522,16 +519,64 @@ public class Menu {
         
         System.out.println("Ingrese el ID del Alumno");
         String idAlumno = sc.nextLine();
-        colegio.buscarAlumnoPorId(idAlumno);
+        Alumno alumnoEncontrado = colegio.buscarAlumnoPorId(idAlumno);
         
+        if(alumnoEncontrado == null){
+            System.out.println("Alumno no encontrado");
+            System.out.println("Regresando al ultimo menu \n");
+        }
         
-        
-        
-        
-        
-        
-        
+        else{
+            System.out.println("Alumno Encontrado");
+            System.out.println(alumnoEncontrado.getNombre() + " " + alumnoEncontrado.getApellido() + "\n");
+            int opcion;
+            do{
+
+                System.out.println("""
+                                   GESTION DE NOTAS DEL ALUMNO
+
+                                   1.Mostrar promedio de notas del alumno
+                                   2.Mostrar la lista de notas del alumno
+
+                                   0.Salir al ultimo menu
+
+                                   """);
+                opcion = leerOpcion();
+
+                switch(opcion){    
+                case 1 -> promedioNotasAlumno(alumnoEncontrado);
+                case 2 -> listaNotasAlumno(alumnoEncontrado);
+
+                case 0 -> System.out.println("Volviendo al ultimo menu.\n");
+
+                case -1 -> {} //En caso de que el usuario coloque un dato que no es número entero 
+                default -> System.out.println("Opcion invalida. Elija una opcion del menu.\n"); //En caso de que el usuario coloque un número entero inválido
+                }
+            }
+            
+            while (opcion != 0);      
+            
+        }    
     }
+
+    private void listaNotasAlumno(Alumno alumnoEncontrado) {
+        ArrayList<Double> notas = alumnoEncontrado.getNotas();
+        if(notas != null){
+            System.out.println("----Lista de notas----");
+            for(int i = 0; i < notas.size(); i++){
+                double nota = notas.get(i);
+                System.out.println(nota + "\n");
+            }
+
+        }
+        else{
+            System.out.println("El alumno no tiene notas\n");
+        }
+    }
+
+    private void promedioNotasAlumno(Alumno alumnoEncontrado){
+        System.out.println("El promedio de notas del alumno es: " + alumnoEncontrado.getPromedioNotas() + "\n" );
+    }    
     
     private void configurarPonderacion(Curso curso) {
         //Código

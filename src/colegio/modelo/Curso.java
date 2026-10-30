@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import colegio.enums.NivelCurso;
 // [REQUISITO: Persistencia] [REQUISITO: Herencia]
-public abstract class Curso implements Identificable, Rankeable, Serializable, Comparable<Curso> {
+public abstract class Curso implements Identificable, Rankeable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,7 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         this.horasSemanales = horasSemanales;
         this.cupoMaximo = cupoMaximo;
         alumnos = new ArrayList<>();
+        asignarNivelCurso();
     }
 
     // [REQUISITO: Persistencia] 
@@ -44,14 +45,13 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     }
     
     //Método para asignarle un nivel al curso creado
-    public void asignarNivelCurso(){
-        
-        
+    private void asignarNivelCurso(){       
+     
         if(horasSemanales < 6){
             this.nivelCurso = NivelCurso.BASICO;
         }
         
-        if(horasSemanales > 6 && horasSemanales < 12){
+        else if(horasSemanales > 6 && horasSemanales < 12){
             this.nivelCurso = NivelCurso.INTERMEDIO;
         }
         
@@ -129,13 +129,6 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         }
         // Implementa comparable
         Collections.sort(alumnos);
-    }
-
-    
-    // Ordena por orden alfabetico
-    @Override
-    public int compareTo(Curso otro) {
-        return this.nombre.compareToIgnoreCase(otro.nombre);
     }
 
     
