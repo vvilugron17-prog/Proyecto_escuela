@@ -23,26 +23,12 @@ public abstract class Curso implements Identificable, Serializable, Comparable<C
     protected NivelCurso nivelCurso;
 
     public Curso(String nombre, int horasSemanales, int cupoMaximo) {
-        validarNombre(nombre);
-        if (horasSemanales <= 0) {
-            throw new IllegalArgumentException("Las horas semanales deben ser positivas.");
-        }
-        if (cupoMaximo <= 0) {
-            throw new IllegalArgumentException("El cupo maximo debe ser positivo.");
-        }
-
         this.id = "CUR-" + contadorId++;
         this.nombre = nombre.trim();
         this.horasSemanales = horasSemanales;
         this.cupoMaximo = cupoMaximo;
         this.alumnos = new ArrayList<>();
         asignarNivelCurso();
-    }
-
-    private static void validarNombre(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del curso es obligatorio.");
-        }
     }
 
     // [REQUISITO: Persistencia] 
@@ -113,11 +99,6 @@ public abstract class Curso implements Identificable, Serializable, Comparable<C
         return nivelCurso;
     }
 
-    public void setNombre(String nombre) {
-        validarNombre(nombre);
-        this.nombre = nombre.trim();
-    }
-
     public void setHorasSemanales(int horasSemanales) {
         if (horasSemanales <= 0) {
             throw new IllegalArgumentException("Las horas semanales deben ser positivas.");
@@ -157,11 +138,5 @@ public abstract class Curso implements Identificable, Serializable, Comparable<C
         int numeroIdActual = Integer.parseInt(this.id.substring(4));
         int numeroIdOtro = Integer.parseInt(otro.id.substring(4));
         return Integer.compare(numeroIdActual, numeroIdOtro);
-    }
-
-    @Override
-    public String toString() {
-        return id + " / " + obtenerClasificacionCurso() + " / " + nombre + " / " + horasSemanales
-                + " horas / cupo " + alumnos.size() + " de " + cupoMaximo + " / " + nivelCurso;
     }
 }

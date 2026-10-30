@@ -160,21 +160,6 @@ public class Colegio implements Serializable {
         }
         return cursosPorId.get(idNormalizado);
     }
-
-    // Busca por nombre recorriendo la lista de cursos.
-    public Curso buscarCursoPorNombre(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            return null;
-        }
-
-        for (Curso curso : cursos) {
-            if (curso.getNombre().equalsIgnoreCase(nombre.trim())) {
-                return curso;
-            }
-        }
-        return null;
-    }
-
     
     
     // ===== CONSULTAS =====

@@ -35,16 +35,11 @@ public class Profesor extends Persona implements Identificable {
 
     @Override
     public void mostrarInformacion() {
-        System.out.println(id + " / " + nombre + " / " + apellido + " / " + especialidad);
+        System.out.println(id + " / " + nombre + " " + apellido + " / " + especialidad);
     }
 
     @Override
     public String obtenerId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return id + " / " + nombre + " / " + apellido + " / " + especialidad;
     }
 }

@@ -85,16 +85,11 @@ public class Alumno extends Persona implements Identificable, Rankeable, Compara
 
     @Override
     public void mostrarInformacion() {
-        System.out.println(id + " / " + nombre + " / " + apellido + " / " + promedioNotas);
+        System.out.println(id + " / " + nombre + "  " + apellido + " / " + promedioNotas);
     }
 
     @Override
     public String obtenerId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return id + " / " + nombre + " / " + apellido;
     }
 }

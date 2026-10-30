@@ -85,7 +85,7 @@ public class Menu {
             5. Mostrar alumnos ingresados
             6. Mostrar profesores ingresados
             7. Gestionar cursos ya creados
-            8. Busqueda de curso por ID o nombre
+            8. Busqueda de curso por ID
             9. Busqueda de alumno por ID
             10. Busqueda de profesor por ID
             11. Mostrar ranking de alumnos
@@ -130,7 +130,7 @@ public class Menu {
         }
     }
 
-    // Lee un numero entero y revisa su valor minimo.
+    // Lee un numero entero.
     private int leerEntero(String mensaje, int minimo) {
         while (true) {
             System.out.print(mensaje);
@@ -150,7 +150,7 @@ public class Menu {
         }
     }
 
-    // Lee un numero decimal y revisa su valor minimo.
+    // Lee un numero decimal.
     private double leerDecimal(String mensaje, double minimo) {
         while (true) {
             System.out.print(mensaje);
@@ -172,10 +172,7 @@ public class Menu {
     }
 
 
-
-    // ===== CREACION DE CURSOS =====
-
-    // Muestra las areas disponibles para crear un curso.
+    // Menú de creación de cursos
     private void crearNuevoCurso() {
         int opcion;
         do {
@@ -209,7 +206,7 @@ public class Menu {
         while (opcion != 0);
     }
 
-    // Crea un curso del area de matematica.
+    // Crea un curso de matematica.
     private void cursoMatematica() {
         System.out.println("\n");
         String nombre = leerString("Ingrese el nombre de su Curso de Matematicas: ");
@@ -238,7 +235,7 @@ public class Menu {
         }
     }
 
-    // Crea un curso del area de ciencias.
+    // Crea un curso de ciencias.
     private void cursoCiencia() {
         System.out.println("\n");
         String nombre = leerString("Ingrese el nombre de su Curso de Ciencias: ");
@@ -266,7 +263,7 @@ public class Menu {
         }
     }
 
-    // Crea un curso del area de artes.
+    // Crea un curso de artes.
     private void cursoArte() {
         System.out.println("\n");
         String nombre = leerString("Ingrese el nombre de su Curso de Artes: ");
@@ -294,9 +291,6 @@ public class Menu {
         }
     }
 
-    
-    
-    // ===== REGISTRO DE PERSONAS =====
 
     // Registra un alumno nuevo.
     private void ingresarNuevoAlumno() {
@@ -308,6 +302,7 @@ public class Menu {
         if (confirmacion == 1){
             Alumno nuevoAlumno = new Alumno(nombre, apellido);
             colegio.agregarAlumno(nuevoAlumno);
+            System.out.println("Alumno ingresado correctamente\n");
         }
         else {
             System.out.println("Regresando al ultimo menu\n");
@@ -334,7 +329,6 @@ public class Menu {
 
     
     
-    // ===== LISTADOS =====
 
     // Muestra los cursos ordenados por su ID.
     private void mostrarCursos() {
@@ -344,7 +338,7 @@ public class Menu {
         ArrayList<Curso> listaCursos = colegio.getCursos();
         Collections.sort(listaCursos); // Curso.compareTo ordena por el numero del ID.
 
-        // La misma variable Curso ejecuta la implementacion de cada subtipo.
+        
         for (Curso curso : listaCursos) {
             System.out.println("AREA: " + curso.obtenerClasificacionCurso());
             curso.mostrarInformacion();
@@ -459,27 +453,44 @@ public class Menu {
     
     // ===== BUSQUEDAS Y CONSULTAS =====
 
-    // Busca un curso por ID o por nombre.
+    // Busca un curso por ID.
     private void buscarCursoPorId() {
-        System.out.println("Ingrese el ID o el nombre del curso:");
+        System.out.println("---Lista de Cursos creados---");
+        System.out.println("ID      NOMBRE");
+        ArrayList<Curso> listaCursos = colegio.getCursos();
+        //Ciclo para mostrar la lista de cursos
+        for (int i = 0; i < listaCursos.size(); i++){
+            String cursoId = listaCursos.get(i).getId();
+            String nombreCurso = listaCursos.get(i).getNombre();
+            System.out.println(cursoId + " " + nombreCurso);
+        } 
+        
+        System.out.println("Ingrese ID del curso:");
         String dato = sc.nextLine().trim();
         // Primero se intenta buscar por ID y, si no existe, por nombre.
         Curso cursoEncontrado = colegio.buscarCursoPorId(dato);
-        if (cursoEncontrado == null) {
-            cursoEncontrado = colegio.buscarCursoPorNombre(dato);
-        }
-
+        
         if (cursoEncontrado == null){
-            System.out.println("No se encontro ningun curso con ese ID o nombre.\n");
+            System.out.println("No se encontro ningun curso con ese ID\n");
         }
         else {
             System.out.println("Curso encontrado\n");
-            cursoEncontrado.mostrarInformacion();
+            System.out.println("ID    NOMBRE");
+            System.out.println(cursoEncontrado.getId() + " " + cursoEncontrado.getNombre());
         }
     }
 
     // Busca un alumno por su ID y muestra sus datos.
     private void buscarAlumnoPorId() {
+        ArrayList<Alumno> listaAlumnos = colegio.getAlumnos();
+        System.out.println("ID    NOMBRE");
+        //Ciclo para mostrar la lista de Alumnos
+        for (int i = 0; i < listaAlumnos.size(); i++){
+            String alumnoId = listaAlumnos.get(i).obtenerId();
+            String nombreAlumno = listaAlumnos.get(i).getNombre();
+            String apellidoAlumno = listaAlumnos.get(i).getApellido();
+            System.out.println(alumnoId + " " + nombreAlumno + " " + apellidoAlumno);
+        }        
         System.out.println("Ingrese un ID de un alumno para buscar  (EJEMPLO: A3)");
         String id = sc.nextLine();
         //Variable local para guardar el alumno encontrado
@@ -490,47 +501,23 @@ public class Menu {
         }
         else {
             System.out.println("Alumno encontrado\n");
-            mostrarPerfilAlumno(alumnoEncontrado);
+            System.out.println("ID    NOMBRE        PROMEDIO");
+            alumnoEncontrado.mostrarInformacion();
         }
-    }
-
-    // Muestra las notas, cursos e historial de un alumno.
-    private void mostrarPerfilAlumno(Alumno alumno) {
-        System.out.println("------- PERFIL DEL ALUMNO -------");
-        alumno.mostrarInformacion();
-
-        ArrayList<Double> notas = alumno.getNotas();
-        if (notas.isEmpty()) {
-            System.out.println("Notas: todavia no tiene calificaciones.");
-        } else {
-            System.out.println("Notas: " + notas);
-            System.out.println("Promedio: " + alumno.getPromedioNotas());
-        }
-
-        ArrayList<Curso> cursosAlumno = colegio.obtenerCursosAlumno(alumno.obtenerId());
-        System.out.println("Cursos inscritos:");
-        if (cursosAlumno.isEmpty()) {
-            System.out.println("No esta inscrito en ningun curso.");
-        } else {
-            for (Curso curso : cursosAlumno) {
-                System.out.println(curso.getId() + " / " + curso.getNombre());
-            }
-        }
-
-        ArrayList<Operacion> historialAlumno = colegio.obtenerHistorialAlumno(alumno.obtenerId());
-        System.out.println("Historial de operaciones:");
-        if (historialAlumno.isEmpty()) {
-            System.out.println("No tiene operaciones registradas.");
-        } else {
-            for (int i = 0; i < historialAlumno.size(); i++) {
-                System.out.println((i + 1) + ". " + historialAlumno.get(i));
-            }
-        }
-        System.out.println();
     }
 
     // Busca un profesor por su ID.
     private void buscarProfesorPorId() {
+        System.out.println("ID Profesores");
+        ArrayList<Profesor> listaProfesores = colegio.getProfesores();
+
+        //Ciclo para mostrar la lista de profesores
+        for (int i = 0; i < listaProfesores.size(); i++){
+            String profesorId = listaProfesores.get(i).obtenerId();
+            String nombreProfesor = listaProfesores.get(i).getNombre();
+            System.out.println(profesorId + " " + nombreProfesor);
+        }
+        
         System.out.println("Ingrese un ID de un profesor para buscar  (EJEMPLO: P2)");
         String id = sc.nextLine();
         //Variable local para guardar el profesor encontrado
@@ -541,6 +528,7 @@ public class Menu {
         }
         else {
             System.out.println("Profesor encontrado\n");
+            System.out.println("ID    NOMBRE     ESPECIALIDAD");
             profesorEncontrado.mostrarInformacion();
         }
     }
@@ -685,7 +673,7 @@ public class Menu {
                                    GESTION DE NOTAS DEL ALUMNO
 
                                    1.Mostrar promedio de notas del alumno
-                                   2.Mostrar la lista de notas del alumno
+                                   2.Mostrar la listaS de notas del alumno
 
                                    0.Salir al ultimo menu
 
@@ -774,7 +762,6 @@ public class Menu {
 
     
     
-    // ===== CONFIRMACION DE ACCIONES =====
 
     // Pide confirmar o cancelar la operacion.
     private int confirmarOperacion() {
