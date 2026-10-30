@@ -1,136 +1,167 @@
 package colegio.modelo;
 
+import colegio.enums.NivelCurso;
 import colegio.excepciones.CupoLlenoException;
 import colegio.interfaces.Identificable;
-import colegio.interfaces.Rankeable;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import colegio.enums.NivelCurso;
-// [REQUISITO: Persistencia] [REQUISITO: Herencia]
-public abstract class Curso implements Identificable, Rankeable, Serializable {
+
+// [REQUISITO: Package] [REQUISITO: Herencia] [REQUISITO: Interface] [REQUISITO: Colecciones] [REQUISITO: Persistencia]
+public abstract class Curso implements Identificable, Serializable, Comparable<Curso> {
 
     private static final long serialVersionUID = 1L;
 
+    // [REQUISITO: Static y Final]
     private static int contadorId = 1;
-    protected String id;
+
+    protected final String id;
     protected String nombre;
     protected int horasSemanales;
     protected int cupoMaximo;
     protected Profesor profesor;
-    protected ArrayList<Alumno> alumnos; // Lista para guardar a todos los alumnos de un curso
+    protected final ArrayList<Alumno> alumnos;
     protected NivelCurso nivelCurso;
-    
+
     public Curso(String nombre, int horasSemanales, int cupoMaximo) {
+        validarNombre(nombre);
+        if (horasSemanales <= 0) {
+            throw new IllegalArgumentException("Las horas semanales deben ser positivas.");
+        }
+        if (cupoMaximo <= 0) {
+            throw new IllegalArgumentException("El cupo maximo debe ser positivo.");
+        }
+
         this.id = "CUR-" + contadorId++;
-        this.nombre = nombre;
+        this.nombre = nombre.trim();
         this.horasSemanales = horasSemanales;
         this.cupoMaximo = cupoMaximo;
-        alumnos = new ArrayList<>();
+        this.alumnos = new ArrayList<>();
         asignarNivelCurso();
+    }
+
+    private static void validarNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del curso es obligatorio.");
+        }
     }
 
     // [REQUISITO: Persistencia] 
     public static void sincronizarContadorId(ArrayList<Curso> cursos) {
-    contadorId = cursos.size() + 1;
-}
+        contadorId = cursos.size() + 1;
+    }
 
     // [REQUISITO: Excepciones]
-    public void inscribirAlumno(Alumno alumno) throws CupoLlenoException {
+    public void inscribirAlumno(Alumno alumno) {
+        if (alumno == null) {
+            throw new IllegalArgumentException("El alumno no puede ser nulo.");
+        }
+
+        for (Alumno inscrito : alumnos) {
+            if (inscrito.obtenerId().equalsIgnoreCase(alumno.obtenerId())) {
+                throw new IllegalArgumentException("El alumno ya esta inscrito en este curso.");
+            }
+        }
+
         if (alumnos.size() >= cupoMaximo) {
             throw new CupoLlenoException(cupoMaximo);
         }
-        alumnos.add(alumno);
-        System.out.println("El alumno fue agregado al curso correctamente");
-    }
-    
-    //Método para asignarle un nivel al curso creado
-    private void asignarNivelCurso(){       
-     
-        if(horasSemanales <= 6){
-            this.nivelCurso = NivelCurso.BASICO;
-        }
-        
-        else if(horasSemanales > 6 && horasSemanales < 12){
-            this.nivelCurso = NivelCurso.INTERMEDIO;
-        }
-        
-        else{
-            this.nivelCurso = NivelCurso.AVANZADO;
-        }
-        
-    }
-    
 
-    
-    ///----------- Getters ---------------///
-    
-    public String getId(){
+        alumnos.add(alumno);
+    }
+
+    // Se calcula automaticamente al crear el curso o cambiar sus horas.
+    private void asignarNivelCurso() {
+        if (horasSemanales <= 6) {
+            nivelCurso = NivelCurso.BASICO;
+        } else if (horasSemanales < 12) {
+            nivelCurso = NivelCurso.INTERMEDIO;
+        } else {
+            nivelCurso = NivelCurso.AVANZADO;
+        }
+    }
+
+    public String getId() {
         return id;
     }
-    
-    public String getNombre(){
+
+    @Override
+    public String obtenerId() {
+        return id;
+    }
+
+    public String getNombre() {
         return nombre;
     }
-    
-    public int getHorasSemanales(){
+
+    public int getHorasSemanales() {
         return horasSemanales;
     }
 
-    public int getCupoMaximo(){
+    public int getCupoMaximo() {
         return cupoMaximo;
     }
-    
-    public Profesor getProfesor(){
+
+    public Profesor getProfesor() {
         return profesor;
     }
-    
+
     public ArrayList<Alumno> getAlumnos() {
-        return alumnos;
+        return new ArrayList<>(alumnos);
     }
-    
-    
-    
-    ///------------- Setters ------------------///
-    
+
+    public NivelCurso getNivelCurso() {
+        return nivelCurso;
+    }
+
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        validarNombre(nombre);
+        this.nombre = nombre.trim();
     }
-    
+
     public void setHorasSemanales(int horasSemanales) {
+        if (horasSemanales <= 0) {
+            throw new IllegalArgumentException("Las horas semanales deben ser positivas.");
+        }
         this.horasSemanales = horasSemanales;
+        asignarNivelCurso();
     }
-    
+
     public void setProfesor(Profesor profesor) {
+        if (profesor == null) {
+            throw new IllegalArgumentException("El profesor no puede ser nulo.");
+        }
+        if (this.profesor != null) {
+            throw new IllegalArgumentException("El curso ya tiene un profesor.");
+        }
         this.profesor = profesor;
     }
-    
+
     public void setCupoMaximo(int cupoMaximo) {
+        if (cupoMaximo <= 0) {
+            throw new IllegalArgumentException("El cupo maximo debe ser positivo.");
+        }
+        if (cupoMaximo < alumnos.size()) {
+            throw new IllegalArgumentException("El cupo no puede ser menor que los alumnos inscritos.");
+        }
         this.cupoMaximo = cupoMaximo;
     }
 
-    
-    
-    
-    public abstract void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas); //Método abstracto para calcular la ponderación de cada curso
-    
-    public abstract void informacionPonderacion(); //Método abstracto para mostrar por pantalla la ponderación de cada curso
+    // [REQUISITO: Polimorfismo] Cada subtipo informa su area y muestra sus datos.
+    public abstract String obtenerClasificacionCurso();
 
-    @Override
-    public String obtenerId() { //Interfaz que devuelve el ID del curso
-        return id;
-    }
-   
-    
-    @Override
-    public void obtenerPuntajeRanking(ArrayList<Alumno> alumnos) {
-        if (alumnos == null) {
-            throw new IllegalArgumentException("La lista de alumnos no puede ser nula.");
-        }
-        // Implementa comparable
-        Collections.sort(alumnos);
-    }
-
-    
     public abstract void mostrarInformacion();
+
+    @Override
+    public int compareTo(Curso otro) {
+        // Ordena por el numero del ID, no alfabeticamente por el nombre.
+        int numeroIdActual = Integer.parseInt(this.id.substring(4));
+        int numeroIdOtro = Integer.parseInt(otro.id.substring(4));
+        return Integer.compare(numeroIdActual, numeroIdOtro);
+    }
+
+    @Override
+    public String toString() {
+        return id + " / " + obtenerClasificacionCurso() + " / " + nombre + " / " + horasSemanales
+                + " horas / cupo " + alumnos.size() + " de " + cupoMaximo + " / " + nivelCurso;
+    }
 }

@@ -1,9 +1,8 @@
 package colegio.interfaces;
 
-import colegio.modelo.Alumno;
-import java.util.ArrayList;
-
+// [REQUISITO: Package] [REQUISITO: Interface]
+// Define que un objeto puede entregar un puntaje para un ranking.
 public interface Rankeable {
 
-    void obtenerPuntajeRanking(ArrayList<Alumno> alumnos);
+    double obtenerPuntajeRanking();
 }

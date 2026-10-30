@@ -1,5 +1,7 @@
 package colegio;
 
+// [REQUISITO: Package] [REQUISITO: Menu-Scanner]
+
 import colegio.gestion.Colegio;
 import colegio.gestion.DatosPrecargados;
 import colegio.gestion.Menu;

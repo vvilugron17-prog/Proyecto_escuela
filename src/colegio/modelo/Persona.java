@@ -1,10 +1,9 @@
 package colegio.modelo;
 
-
 import java.io.Serializable;
 
-// [REQUISITO: Persistencia]
-public abstract class Persona implements Serializable{
+// [REQUISITO: Package] [REQUISITO: Herencia] [REQUISITO: Persistencia]
+public abstract class Persona implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -12,24 +11,20 @@ public abstract class Persona implements Serializable{
     protected String apellido;
 
     public Persona(String nombre, String apellido) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombre = nombre.trim();
+        this.apellido = apellido.trim();
     }
-    
-    //Método abstracto para mostrar la informacion de Alumno y Profesor
+
+
     public abstract void mostrarInformacion();
-    
-    //Setters
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.trim();
     }
 
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.apellido = apellido.trim();
     }
-    
-    //Getters
 
     public String getNombre() {
         return nombre;

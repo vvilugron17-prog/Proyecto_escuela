@@ -1,15 +1,19 @@
 package colegio.modelo;
 
-import colegio.interfaces.Identificable;
 import colegio.excepciones.NotaInvalidaException;
+import colegio.interfaces.Identificable;
+import colegio.interfaces.Rankeable;
 import java.util.ArrayList;
 
-// [REQUISITO: Herencia]
-public class Alumno extends Persona implements Identificable, Comparable<Alumno> {
+// [REQUISITO: Package] [REQUISITO: Herencia] [REQUISITO: Interface]
+public class Alumno extends Persona implements Identificable, Rankeable, Comparable<Alumno> {
 
     // [REQUISITO: Persistencia]
     private static final long serialVersionUID = 1L;
+
+    // [REQUISITO: Static y Final]
     private static int contadorId = 1;
+
     private final String id;
     private final ArrayList<Double> notas;
     private double promedioNotas;
@@ -19,25 +23,24 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
         this.id = "A" + contadorId++;
         this.notas = new ArrayList<>();
     }
-    
-    
-    public static void sincronizarContadorId(ArrayList<Alumno> alumnos){
+
+    // [REQUISITO: Persistencia] Recupera la secuencia de identificadores despues de cargar.
+    public static void sincronizarContadorId(ArrayList<Alumno> alumnos) {
         contadorId = alumnos.size() + 1;
-        
     }
-   
+
+    // [REQUISITO: Excepciones]
     public void agregarNotas(double nota) {
-        if (nota < 1.0 || nota > 7.0) {
-            throw new NotaInvalidaException("La nota debe estar entre 1,0 y 7,0.");
+        if (!Double.isFinite(nota) || nota < 1.0 || nota > 7.0) {
+            throw new NotaInvalidaException("La nota debe ser un numero entre 1,0 y 7,0.");
         }
 
         notas.add(nota);
-        calcularPromedioNotas(notas); //Esto para que cuando se agregue una nueva nota, el promedio se actualice con la nueva nota ingresada
-        System.out.println("La nota ha sido agregada");
+        calcularPromedioNotas();
     }
 
-    public void calcularPromedioNotas(ArrayList<Double> notas) {
-        if (notas == null || notas.isEmpty()) {
+    private void calcularPromedioNotas() {
+        if (notas.isEmpty()) {
             promedioNotas = 0;
             return;
         }
@@ -46,6 +49,7 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
         for (Double nota : notas) {
             sumaNotas += nota;
         }
+
         promedioNotas = sumaNotas / notas.size();
     }
 
@@ -57,10 +61,16 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
         return new ArrayList<>(notas);
     }
 
-    // Promedio más alto primero, luego apellido y nombre.
+    // [REQUISITO: Interface] El promedio es el puntaje utilizado en el ranking.
+    @Override
+    public double obtenerPuntajeRanking() {
+        return promedioNotas;
+    }
+
+    // [REQUISITO: Polimorfismo] Promedio mas alto primero, luego apellido y nombre.
     @Override
     public int compareTo(Alumno otro) {
-        int resultadoPromedio = Double.compare(otro.getPromedioNotas(), this.getPromedioNotas()); // Compara el promedio final entre alumnos
+        int resultadoPromedio = Double.compare(otro.getPromedioNotas(), this.getPromedioNotas());
         if (resultadoPromedio != 0) {
             return resultadoPromedio;
         }
@@ -75,11 +85,16 @@ public class Alumno extends Persona implements Identificable, Comparable<Alumno>
 
     @Override
     public void mostrarInformacion() {
-        System.out.println(id + "/" + nombre + "/" + apellido);
+        System.out.println(id + " / " + nombre + " / " + apellido + " / " + promedioNotas);
     }
-    
+
     @Override
-    public String obtenerId(){
+    public String obtenerId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return id + " / " + nombre + " / " + apellido;
     }
 }
