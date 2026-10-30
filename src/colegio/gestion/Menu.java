@@ -159,6 +159,13 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Matemáticas: ");
         String nombre = sc.nextLine();
+        System.out.println("""
+                           AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
+                           
+                           1. Menor a 6 horas = CURSO BASICO
+                           2. Mayor a 6 horas y menor a 12 horas = CURSO INTERMEDIO
+                           3. Mayor o igual a 12 horas = CURSO AVANZADO
+                           """);
         int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
         int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
         int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
@@ -169,6 +176,7 @@ public class Menu {
         
         if(preguntaSeguridad == 1){
             Matematica cursoNuevo = new Matematica(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
+            cursoNuevo.asignarNivelCurso(); //Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo);  
             System.out.println("Curso creado con éxito\n");
         }
@@ -181,6 +189,13 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Ciencias: ");
         String nombre = sc.nextLine();
+        System.out.println("""
+                           AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
+                           
+                           1. Menor a 6 horas = CURSO BASICO
+                           2. Mayor a 6 horas y menor a 12 horas = CURSO INTERMEDIO
+                           3. Mayor o igual a 12 horas = CURSO AVANZADO
+                           """);        
         int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
         int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
         int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
@@ -190,6 +205,7 @@ public class Menu {
         
         if(preguntaSeguridad == 1){
             Ciencia cursoNuevo = new Ciencia(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
+            cursoNuevo.asignarNivelCurso();//Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo);  
             System.out.println("Curso creado con éxito\n");
         }
@@ -202,6 +218,13 @@ public class Menu {
         System.out.println("\n");
         System.out.println("Ingrese el nombre de su Curso de Artes: ");
         String nombre = sc.nextLine();
+        System.out.println("""
+                           AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
+                           
+                           1. Menor a 6 horas = CURSO BASICO
+                           2. Mayor a 6 horas y menor a 12 horas = CURSO INTERMEDIO
+                           3. Mayor o igual a 12 horas = CURSO AVANZADO
+                           """);        
         int horasSemanales = leerEntero("Ingrese las horas semanales de su Curso: ", 1);
         int cupoMaximo = leerEntero("Ingrese el cupo máximo de su curso: ", 1);
         int cantidadEvaluaciones = leerEntero("Ingrese la cantidad de evaluaciones que tendrá su curso: ", 0);
@@ -211,6 +234,7 @@ public class Menu {
         
         if(preguntaSeguridad == 1){        
             Arte cursoNuevo = new Arte(nombre, horasSemanales, cupoMaximo, cantidadEvaluaciones, cantidadTareas);
+            cursoNuevo.asignarNivelCurso();//Método para asignarle un nivel al curso creado
             colegio.agregarCurso(cursoNuevo); 
             System.out.println("Curso creado con éxito\n");
         }
@@ -258,7 +282,7 @@ public class Menu {
 
     private void mostrarCursos() {
         System.out.println("-------Lista de Cursos creados-------\n");
-        System.out.println("ID/NOMBRE/HORAS SEMANALES/CUPO MAXIMO/CANTIDAD EVALUACIONES/CANTIDAD TAREAS");
+        System.out.println("ID/NOMBRE/HORAS SEMANALES/CUPO MAXIMO/CANTIDAD EVALUACIONES/CANTIDAD TAREAS/NIVEL DE CURSO");
         //Variable local para guardar la lista de todos los cursos creados
         ArrayList<Curso> listaCursos = colegio.getCursos();
         //Ciclo para mostrar la lista de cursos
@@ -270,7 +294,7 @@ public class Menu {
 
     private void mostrarAlumnos() {
         System.out.println("-------Lista de Alumnos ingresados-------");
-        System.out.println("ID/NOMBRE/APELLIDO/\n");
+        System.out.println("ID/NOMBRE/APELLIDO\n");
         //Variable local para guardar la lista de todos los alumnos ingresados
         ArrayList<Alumno> listaAlumnos = colegio.getAlumnos();
         //Ciclo para mostrar la lista de alumnos
@@ -316,6 +340,7 @@ public class Menu {
             System.out.println("1. Asignar profesor a un curso");
             System.out.println("2. Inscribir un alumno a un curso");
             System.out.println("3. Registrar nota de un alumno");
+            System.out.println("4. Mostrar notas de un alumno");
             System.out.println("\n");
             System.out.println("0. Volver al menu principal");
         
@@ -325,6 +350,7 @@ public class Menu {
             case 1 -> asignarProfesorACurso();
             case 2 -> inscribirAlumnoEnCurso();
             case 3 -> registrarNota();
+            case 4 -> notasAlumno();
             
             case 0 -> System.out.println("Volviendo al menu principal.\n");
             
@@ -382,11 +408,16 @@ public class Menu {
         } 
     }
 
-    // Falta implementar
     private void mostrarRanking() {
-        ArrayList <Alumno> ranking = colegio.obtenerRankingAlumnos();
-        System.out.println(ranking);
+        ArrayList<Alumno> ranking = colegio.obtenerRankingAlumnos();
+        System.out.println("ALUMNO            PROMEDIO DE NOTAS");
+        
+        for(Alumno i : ranking){
+            System.out.println( i.getNombre()+ " " + i.getApellido() +  " / " + i.getPromedioNotas());
         }
+        System.out.println("\n");
+        
+    }
     
     private void mostrarHistorial() {
         ArrayList<Operacion> historial = colegio.getHistorial();
@@ -410,7 +441,7 @@ public class Menu {
         System.out.println("ID Alumnos");
         ArrayList<Alumno>listaAlumnos = colegio.getAlumnos();
         
-        //Ciclo para mostrar la lista de profesores        
+        //Ciclo para mostrar la lista de Alumnos        
         for(int i = 0; i < listaAlumnos.size(); i++){
             String alumnoId = listaAlumnos.get(i).obtenerId();
             String nombreAlumno = listaAlumnos.get(i).getNombre();
@@ -477,6 +508,30 @@ public class Menu {
     }
 
     
+    private void notasAlumno(){
+        System.out.println("Ingrese el ID del alumno para continuar");
+        
+        ArrayList<Alumno>listaAlumnos = colegio.getAlumnos();
+        
+        //Ciclo para mostrar la lista de Alumnos        
+        for(int i = 0; i < listaAlumnos.size(); i++){
+            String alumnoId = listaAlumnos.get(i).obtenerId();
+            String nombreAlumno = listaAlumnos.get(i).getNombre();
+            System.out.println(alumnoId + " " + nombreAlumno);    
+        }
+        
+        System.out.println("Ingrese el ID del Alumno");
+        String idAlumno = sc.nextLine();
+        colegio.buscarAlumnoPorId(idAlumno);
+        
+        
+        
+        
+        
+        
+        
+        
+    }
     
     private void configurarPonderacion(Curso curso) {
         //Código

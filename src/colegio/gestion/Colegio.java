@@ -15,7 +15,7 @@ public class Colegio implements Serializable {
 
     // [REQUISITO: Static y Final]
     private static final long serialVersionUID = 1L;
-    private static final String NOMBRE_COLEGIO = "Zapallar";
+    private static final String NOMBRE_COLEGIO = "Liceo Bicentenario Zapallar de Curico";
     // [REQUISITO: Persistencia] Archivo donde se guarda el colegio.
     private static final String ARCHIVO_DATOS = "colegio_datos.dat";
 
@@ -102,7 +102,8 @@ public class Colegio implements Serializable {
 
         cursos.add(curso);
         cursosPorId.put(id, curso);
-        registrar(TipoOperacion.REGISTRO_CURSO,
+        registrar(
+                TipoOperacion.REGISTRO_CURSO,
                 "Se registró el curso con ID " + id + ".");
     }
 
@@ -193,7 +194,7 @@ public class Colegio implements Serializable {
         }    
         
         curso.setProfesor(profesor);
-        registrar(TipoOperacion.ASIGNACION_PROFESOR, "Profesor " + profesor.obtenerId() + " asignado al curso " + curso.obtenerId() + ".");
+        registrar(TipoOperacion.ASIGNACION_PROFESOR, "Profesor " + profesor.getNombre() + " asignado al curso " + curso.getNombre() + ".");
         
     }
 

@@ -7,7 +7,7 @@ import colegio.modelo.Curso;
 import colegio.modelo.Matematica;
 import colegio.modelo.Profesor;
 
-// Carga datos de ejemplo.
+// [REQUISITO: Package] Carga datos de ejemplo.
 public final class DatosPrecargados {
 
     private DatosPrecargados() {
@@ -20,11 +20,11 @@ public final class DatosPrecargados {
         }
 
         // Alumnos.
-        Alumno alumno1 = new Alumno("Alumno1", "Apellido1");
-        Alumno alumno2 = new Alumno("Alumno2", "Apellido2");
-        Alumno alumno3 = new Alumno("Alumno3", "Apellido3");
-        Alumno alumno4 = new Alumno("Alumno4", "Apellido4");
-        Alumno alumno5 = new Alumno("Alumno5", "Apellido5");
+        Alumno alumno1 = new Alumno("Camila", "Rojas");
+        Alumno alumno2 = new Alumno("Matías", "Pérez");
+        Alumno alumno3 = new Alumno("Antonia", "Muñoz");
+        Alumno alumno4 = new Alumno("Diego", "Soto");
+        Alumno alumno5 = new Alumno("Fernanda", "Vera");
 
         colegio.agregarAlumno(alumno1);
         colegio.agregarAlumno(alumno2);
@@ -34,32 +34,37 @@ public final class DatosPrecargados {
 
         // Profesores.
         Profesor profesor1 = new Profesor(
-                "Profesor1", "Apellido1", "Matematica");
+                "Paula", "Rojas", "Matematica");
 
         Profesor profesor2 = new Profesor(
-                "Profesor2", "Apellido2", "Ciencias");
+                "Rodrigo", "Pérez", "Ciencias");
 
         Profesor profesor3 = new Profesor(
-                "Profesor3", "Apellido3", "Artes");
+                "Marcela", "Muñoz", "Artes");
 
         colegio.agregarProfesor(profesor1);
         colegio.agregarProfesor(profesor2);
         colegio.agregarProfesor(profesor3);
 
         // Cursos de Matematica.
-        Curso matematica1 = new Matematica("Matematica1", 4, 30, 3, 4);
-        Curso matematica2 = new Matematica("Matematica2", 3, 25, 2, 3);
-        Curso matematica3 = new Matematica("Matematica3", 3, 25, 2, 2);
+        Curso matematica1 = new Matematica("Álgebra", 4, 30, 3, 4);
+        matematica1.asignarNivelCurso();//Método para asignarle un nivel al curso creado
+        Curso matematica2 = new Matematica("Cálculo", 3, 25, 2, 3);
+        matematica2.asignarNivelCurso();//Método para asignarle un nivel al curso creado
+        Curso matematica3 = new Matematica("Geometría", 3, 25, 2, 2);
+        matematica3.asignarNivelCurso();//Método para asignarle un nivel al curso creado
 
         // Cursos de Ciencias.
-        Curso ciencia1 = new Ciencia("Ciencia1", 4, 30, 3, 3);
-        Curso ciencia2 = new Ciencia("Ciencia2", 4, 30, 3, 2);
-        Curso ciencia3 = new Ciencia("Ciencia3", 3, 25, 2, 3);
+        Curso ciencia1 = new Ciencia("Física", 4, 30, 3, 3);
+        ciencia1.asignarNivelCurso();//Método para asignarle un nivel al curso creado
+        Curso ciencia2 = new Ciencia("Biología", 4, 30, 3, 2);
+        ciencia2.asignarNivelCurso();//Método para asignarle un nivel al curso creado
+        Curso ciencia3 = new Ciencia("Química", 3, 25, 2, 3);
 
         // Cursos de Artes.
-        Curso arte1 = new Arte("Arte1", 2, 20, 2, 4);
-        Curso arte2 = new Arte("Arte2", 2, 20, 2, 3);
-        Curso arte3 = new Arte("Arte3", 2, 20, 2, 3);
+        Curso arte1 = new Arte("Dibujo", 2, 20, 2, 4);
+        Curso arte2 = new Arte("Música", 2, 20, 2, 3);
+        Curso arte3 = new Arte("Teatro", 2, 20, 2, 3);
 
         colegio.agregarCurso(matematica1);
         colegio.agregarCurso(matematica2);
@@ -73,7 +78,24 @@ public final class DatosPrecargados {
         colegio.agregarCurso(arte2);
         colegio.agregarCurso(arte3);
 
-        System.out.println(
-                "Se cargaron 5 alumnos, 3 profesores y 9 cursos.");
+        // [REQUISITO: Herencia] Datos iniciales para demostrar funciones del sistema.
+        colegio.asignarProfesorACurso(profesor1.obtenerId(), matematica1.obtenerId());
+        colegio.asignarProfesorACurso(profesor2.obtenerId(), ciencia1.obtenerId());
+        colegio.asignarProfesorACurso(profesor3.obtenerId(), arte1.obtenerId());
+
+        colegio.inscribirAlumnoEnCurso(alumno1.obtenerId(), matematica1.obtenerId());
+        colegio.inscribirAlumnoEnCurso(alumno1.obtenerId(), ciencia1.obtenerId());
+        colegio.inscribirAlumnoEnCurso(alumno2.obtenerId(), matematica1.obtenerId());
+        colegio.inscribirAlumnoEnCurso(alumno3.obtenerId(), arte1.obtenerId());
+        colegio.inscribirAlumnoEnCurso(alumno4.obtenerId(), ciencia1.obtenerId());
+
+        colegio.registrarNota(alumno1.obtenerId(), 6.5);
+        colegio.registrarNota(alumno1.obtenerId(), 5.8);
+        colegio.registrarNota(alumno2.obtenerId(), 4.9);
+        colegio.registrarNota(alumno3.obtenerId(), 6.8);
+        colegio.registrarNota(alumno4.obtenerId(), 5.2);
+        colegio.registrarNota(alumno5.obtenerId(), 6.0);
+
+        System.out.println("Se cargaron 5 alumnos, 3 profesores, 9 cursos y datos de prueba.");
     }
 }

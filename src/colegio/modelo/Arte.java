@@ -40,6 +40,6 @@ public class Arte extends Curso {
 
     @Override
     public void mostrarInformacion() {
-        System.out.println(id + " / " + nombre + " / " + horasSemanales + " / " + cupoMaximo + " / " + cantidadEvaluaciones + " / " + cantidadTareas);
+        System.out.println(id + " / " + nombre + " / " + horasSemanales + " / " + cupoMaximo + " / " + cantidadEvaluaciones + " / " + cantidadTareas + " / " + nivelCurso);
     }
 }

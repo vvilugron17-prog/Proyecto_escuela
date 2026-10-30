@@ -6,7 +6,7 @@ import colegio.interfaces.Rankeable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-
+import colegio.enums.NivelCurso;
 // [REQUISITO: Persistencia] [REQUISITO: Herencia]
 public abstract class Curso implements Identificable, Rankeable, Serializable, Comparable<Curso> {
 
@@ -19,6 +19,7 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     protected int cupoMaximo;
     protected Profesor profesor;
     protected ArrayList<Alumno> alumnos; // Lista para guardar a todos los alumnos de un curso
+    protected NivelCurso nivelCurso;
     
     public Curso(String nombre, int horasSemanales, int cupoMaximo) {
         this.id = "CUR-" + contadorId++;
@@ -40,6 +41,24 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         }
         alumnos.add(alumno);
         System.out.println("El alumno fue agregado al curso correctamente");
+    }
+    
+    //Método para asignarle un nivel al curso creado
+    public void asignarNivelCurso(){
+        
+        
+        if(horasSemanales < 6){
+            this.nivelCurso = NivelCurso.BASICO;
+        }
+        
+        if(horasSemanales > 6 && horasSemanales < 12){
+            this.nivelCurso = NivelCurso.INTERMEDIO;
+        }
+        
+        else{
+            this.nivelCurso = NivelCurso.AVANZADO;
+        }
+        
     }
     
 
@@ -70,6 +89,8 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
         return alumnos;
     }
     
+    
+    
     ///------------- Setters ------------------///
     
     public void setNombre(String nombre) {
@@ -87,6 +108,9 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     public void setCupoMaximo(int cupoMaximo) {
         this.cupoMaximo = cupoMaximo;
     }
+
+    
+    
     
     public abstract void calcularPonderacion(double porcentajeEvaluaciones, double porcentajeTareas); //Método abstracto para calcular la ponderación de cada curso
     
@@ -113,6 +137,7 @@ public abstract class Curso implements Identificable, Rankeable, Serializable, C
     public int compareTo(Curso otro) {
         return this.nombre.compareToIgnoreCase(otro.nombre);
     }
+
     
     public abstract void mostrarInformacion();
 }
