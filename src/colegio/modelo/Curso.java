@@ -47,7 +47,7 @@ public abstract class Curso implements Identificable, Rankeable, Serializable {
     //Método para asignarle un nivel al curso creado
     private void asignarNivelCurso(){       
      
-        if(horasSemanales < 6){
+        if(horasSemanales <= 6){
             this.nivelCurso = NivelCurso.BASICO;
         }
         

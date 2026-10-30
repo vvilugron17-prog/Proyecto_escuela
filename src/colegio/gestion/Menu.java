@@ -71,17 +71,39 @@ public class Menu {
             12. Mostrar historial
             
             0. Salir y guardar""");
-}
+    }
+    
+    //Método para pedirle un String a el usuario
+    private String leerString(String mensaje){
+        while (true){
+            System.out.println(mensaje);
+            try{
+                String contenido = sc.nextLine().trim();
+                if(contenido.isEmpty()){
+                    throw new IllegalArgumentException("No puede ingresar un espacio vacio");
+                }
+                
+                else{ 
+                    return contenido;
+                }
+            }
+            catch (IllegalArgumentException e){
+                System.out.println("ERROR " + e.getMessage());
+            }
+        }
+    }
+    
+    
     //Método para pedirle una opción del Menú al usuario
     private int leerOpcion() {
-    System.out.print("Ingrese una opcion: ");
-    try {
-        return Integer.parseInt(sc.nextLine().trim()); //Te devuelve tu string en un número entero y quitandole los espacios, si es que los tiene
-    } catch (NumberFormatException error) {
-        System.out.println("Dato invalido. Por favor, ingrese un numero entero.");
-        return -1;
+        System.out.print("Ingrese una opcion: ");
+        try {
+            return Integer.parseInt(sc.nextLine().trim()); //Te devuelve tu string en un número entero y quitandole los espacios, si es que los tiene
+        } catch (NumberFormatException error) {
+            System.out.println("Dato invalido. Por favor, ingrese un numero entero.");
+            return -1;
+        }
     }
-}
     
     //Método para asegurarse de que el usuario ingrese un número entero
     private int leerEntero(String mensaje, int minimo) {
@@ -157,8 +179,7 @@ public class Menu {
     
     private void cursoMatematica(){
         System.out.println("\n");
-        System.out.println("Ingrese el nombre de su Curso de Matemáticas: ");
-        String nombre = sc.nextLine();
+        String nombre = leerString("Ingrese el nombre de su Curso de Matemáticas: ");
         System.out.println("""
                            AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
                            
@@ -186,8 +207,7 @@ public class Menu {
 
     private void cursoCiencia(){
         System.out.println("\n");
-        System.out.println("Ingrese el nombre de su Curso de Ciencias: ");
-        String nombre = sc.nextLine();
+        String nombre = leerString("Ingrese el nombre de su Curso de Ciencias: ");
         System.out.println("""
                            AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
                            
@@ -214,8 +234,7 @@ public class Menu {
 
     private void cursoArte(){
         System.out.println("\n");
-        System.out.println("Ingrese el nombre de su Curso de Artes: ");
-        String nombre = sc.nextLine();
+        String nombre = leerString("Ingrese el nombre de su Curso de Artes: ");
         System.out.println("""
                            AVISO: DEPENDIENDO DE LA CANTIDAD DE HORAS SEMANALES QUE ELIJA, SE ESCOGERÁ UN NIVEL PARA SU CURSO
                            
@@ -241,10 +260,8 @@ public class Menu {
     }
     
     private void ingresarNuevoAlumno() {
-        System.out.println("Ingrese el nombre del Alumno");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese el apellido del Alumno");
-        String apellido = sc.nextLine();
+        String nombre = leerString("Ingrese el nombre del Alumno");
+        String apellido = leerString("Ingrese el apellido del Alumno");
         
         int preguntaSeguridad = opcionDeCancelado();
         
@@ -258,10 +275,8 @@ public class Menu {
     }
 
     private void ingresarNuevoProfesor() {
-        System.out.println("Ingrese el nombre del Profesor");
-        String nombre = sc.nextLine();
-        System.out.println("Ingrese el apellido del Profesor");
-        String apellido = sc.nextLine();
+        String nombre = leerString("Ingrese el nombre del Profesor");
+        String apellido = leerString("Ingrese el apellido del Profesor");
         System.out.println("Ingrese la especialidad del Profesor");
         String especialidad = sc.nextLine();
         
@@ -561,22 +576,28 @@ public class Menu {
 
     private void listaNotasAlumno(Alumno alumnoEncontrado) {
         ArrayList<Double> notas = alumnoEncontrado.getNotas();
-        if(notas != null){
+        if(notas.isEmpty()){
+            System.out.println("El alumno no tiene notas\n");
+        }
+        
+        else{
             System.out.println("----Lista de notas----");
             for(int i = 0; i < notas.size(); i++){
                 double nota = notas.get(i);
-                System.out.println(nota + "\n");
+                System.out.println(nota + "\n");    
+            
             }
-
-        }
-        else{
-            System.out.println("El alumno no tiene notas\n");
         }
     }
 
     private void promedioNotasAlumno(Alumno alumnoEncontrado){
+        if(alumnoEncontrado.getNotas().isEmpty()){
+            System.out.println("El alumno no tiene notas, por tanto no hay promedio\n");
+        }
+        else{
         System.out.println("El promedio de notas del alumno es: " + alumnoEncontrado.getPromedioNotas() + "\n" );
-    }    
+        }
+    }
     
     private void configurarPonderacion(Curso curso) {
         //Código
@@ -594,6 +615,14 @@ public class Menu {
                 AVISO: LA NOTA MÍNIMA ES UN 1.0 Y LA NOTA MAXIMA ES UN 7.0
                            """);
         
+        ArrayList<Alumno>listaAlumnos = colegio.getAlumnos();
+        
+        //Ciclo para mostrar la lista de Alumnos        
+        for(int i = 0; i < listaAlumnos.size(); i++){
+            String alumnoId = listaAlumnos.get(i).obtenerId();
+            String nombreAlumno = listaAlumnos.get(i).getNombre();
+            System.out.println(alumnoId + " " + nombreAlumno);    
+        }        
         
         System.out.println("Ingrese el ID del alumno:");
         String idAlumno = sc.nextLine();
